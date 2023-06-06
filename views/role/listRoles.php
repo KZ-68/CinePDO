@@ -6,17 +6,17 @@ ob_start();
 
 <h2>Liste des roles</h2>
 
-<?= $roles->rowcount() ?>
+<?= "{$roles->rowcount()}\n" ?>
 
 <?php
 while ($role = $roles->fetch()) {
 
-    echo "<p>{$role["id_role"]}</p>";
+    echo "{$role["id_role"]}\n";
 
-    echo "<p>Nom du Personnage : {$role["nom_role"]}</p>";
+    echo "Nom du Personnage : {$role["nom_role"]}\n";
 
 ?>
-    <a href="index.php?action=detailRole&id=<?=$role['id_role']?>">Detail Role</a>
+    <p><a href="index.php?action=detailRole&id=<?=$role['id_role']?>">Detail Role</a></p>
 <?php
 }
 

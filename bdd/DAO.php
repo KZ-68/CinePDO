@@ -1,6 +1,6 @@
 <!-- 
-DAO - Data Access Object
-PDO -->
+DAO - Data Access Object est un Design Pattern utilisé pour regrouper les accès aux données dans des classes à part
+PDO - PDO (PHP Data Object) est une extension de PHP permettant d'accéder à une base de données -->
 
 <?php
 class DAO{    
@@ -17,7 +17,7 @@ class DAO{
     public function executerRequete($sql, $params = NULL) {        
         if ($params == NULL){            
             $resultat = $this->bdd->query($sql);
-            // query : à définir        
+            // query : Prépare et Exécute une requête SQL  
         }else{            
             $resultat = $this->bdd->prepare($sql);           
             $resultat->execute($params);        

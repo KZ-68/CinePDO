@@ -6,21 +6,18 @@ ob_start();
 
 <h2>Liste des réalisateurs</h2>
 
-<?= $directors->rowcount() ?>
+<?= "<p>{$directors->rowcount()}</p>" ?>
 
 <?php
 while ($director = $directors->fetch()) {
 
-    echo "<p>Prénom du Réalisateur : {$director["prenom"]}</p>";
-
-    echo "<p>Nom du Réalisateur : {$director["nom"]}</p>";
-
-    echo "<p>Sexe : {$director["sexe"]}</p>";
-
-    echo "<p>Date de naissance : {$director["date_naissance"]}</p>";
+    echo "<div class='card_website'>
+        <p>{$director["id_realisateur"]}<br/>
+        {$director["prenom"]} {$director["nom"]}</p>";
 
 ?>
-    <a href="index.php?action=detailRealisateur&id=<?=$director['id_realisateur']?>">Detail Réalisateur</a>
+    <p><a href="index.php?action=detailDirector&id=<?=$director['id_realisateur']?>">Detail Réalisateur</a></p>
+    </div>
 <?php
 }
 

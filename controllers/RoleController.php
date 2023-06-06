@@ -1,5 +1,7 @@
 <?php
 
+require_once "bdd/DAO.php";
+
 class RoleController{
 
     public function findAllRoles()  {

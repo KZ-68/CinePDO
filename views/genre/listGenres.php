@@ -6,17 +6,17 @@ ob_start();
 
 <h2>Liste des genres</h2>
 
-<?= $genres->rowcount() ?>
+<?= "{$genres->rowcount()}\n" ?>
 
 <?php
 while ($genre = $genres->fetch()) {
 
-    echo "<p>{$genre["id_genre"]}</p>";
+    echo "{$genre["id_genre"]}\n";
 
-    echo "<p>Libellé du genre : {$genre["libelle"]}</p>";
+    echo "Libellé du genre : {$genre["libelle"]}\n";
 
 ?>
-    <a href="index.php?action=detailGenre&id=<?=$genre['id_genre']?>">Detail Genre</a>
+    <p><a href="index.php?action=detailGenre&id=<?=$genre['id_genre']?>">Detail Genre</a></p>
 <?php
 }
 

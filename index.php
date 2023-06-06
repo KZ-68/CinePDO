@@ -21,20 +21,33 @@ $roleCtrl = new RoleController();
 
 if(isset($_GET['action'])) {
 
-    $id = filter_input(INPUT_GET,'id', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    // $id = filter_input(INPUT_GET,'id', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $id = filter_input(INPUT_GET,'id', FILTER_SANITIZE_NUMBER_INT);
 
     switch($_GET['action']) {
+        // listes
         case "listFilms": $filmCtrl->findAllFilms(); break;
         case "listActors": $personCtrl->findAllActors(); break;
         case "listDirectors": $personCtrl->findAllDirectors(); break;
         case "listGenres": $genreCtrl->findAllGenres(); break;
         case "listRoles": $roleCtrl->findAllRoles(); break;
-    default:
-        $homeCtrl->homePage(); 
-    
-}}else {
+        // détails
+        case "detailFilm": $filmCtrl->findOneFilm($id); break;
+        case "detailActor": $personCtrl->findOneActor($id); break;
+        case "detailDirector": $personCtrl->findOneDirector($id); break;
+        case "detailGenre": $genreCtrl->findOneGenre($id); break;
+        // défaut
+        default:
+            $homeCtrl->homePage();
+    }
+} else {
 
     $homeCtrl->homePage();
 }
 
+// if(isset($_GET['action']) && ($_GET['id'])) {
+//     switch($_GET['action'] && $_GET['id']) {
+//         case "detailFilm": $filmCtrl->findOneFilm(); break;
+//     }
+// }
 ?>

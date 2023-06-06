@@ -6,21 +6,20 @@ ob_start();
 
 <h2>Liste des acteurs</h2>
 
-<?= $actors->rowcount() ?>
+<?= "<p>{$actors->rowcount()}</p>" ?>
 
 <?php
 while ($actor = $actors->fetch()) {
 
-    echo "<p>Prénom de l'acteur : {$actor["prenom"]}</p>";
-
-    echo "<p>Nom de l'acteur : {$actor["nom"]}</p>";
-
-    echo "<p>Sexe : {$actor["sexe"]}</p>";
-
-    echo "<p>Date de naissance : {$actor["date_naissance"]}</p>";
-
+    echo "<div class='card_website'>
+    <p>{$actor["id_acteur"]}</p>
+    <p>{$actor["prenom"]} {$actor["nom"]}</p>
+    ";
 ?>
-    <a href="index.php?action=detailActeur&id=<?=$actor['id_acteur']?>">Detail Acteur</a>
+    <a href="index.php?action=detailActor&id=<?=$actor['id_acteur']?>">
+        <p>Detail Acteur</p>
+    </a>
+    </div>
 <?php
 }
 
