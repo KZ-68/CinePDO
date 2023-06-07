@@ -10,15 +10,15 @@
 </head>
 <body>
     <header>
-        <h1 id="kzcine">KZCiné</h1>
+        <h1 id="kzcine">KZCine</h1>
         <nav>
             <ul>
                 <li><a class="navTop" href="index.php?action=homepage">Home</a></li>
-                <li><a class="navTop" href="index.php?action=listFilms">Liste des films</a></li>
-                <li><a class="navTop" href="index.php?action=listActors">Liste des acteurs</a></li>
-                <li><a class="navTop" href="index.php?action=listDirectors">Liste des réalisateurs</a></li>
-                <li><a class="navTop" href="index.php?action=listGenres">Liste des genres</a></li>
-                <li><a class="navTop" href="index.php?action=listRoles">Liste des rôles</a></li>
+                <li><a class="navTop" href="index.php?action=listFilms">Movies List</a></li>
+                <li><a class="navTop" href="index.php?action=listActors">Actors List</a></li>
+                <li><a class="navTop" href="index.php?action=listDirectors">Directors List</a></li>
+                <li><a class="navTop" href="index.php?action=listGenres">Genres List</a></li>
+                <li><a class="navTop" href="index.php?action=listRoles">Roles List</a></li>
             </ul>
         </nav>
     </header>
@@ -29,17 +29,19 @@
     </main>
 
     <footer>
-        <hgroup id="groupFooter">
-            <h3 id="titlefooter">KZCiné</h3>
-            <small>Copyright Kevin ZITNIK</small>
-        </hgroup>
-        <nav>
-            <ul>
-                <li><a class="navFooter" href="#">ABOUT</a></li>
-                <li><a class="navFooter" href="#">TERMS & CONDITIONS</a></li>
-                <li><a class="navFooter" href="#">CONTACT</a></li>
-            </ul>
-        </nav>
+        <div class="footer_container">
+            <hgroup id="footer_group">
+                <h3 id="footer_title">KZCine</h3>
+                <small>Copyright Kevin ZITNIK</small>
+            </hgroup>
+            <nav>
+                <ul>
+                    <li><a class="footer_nav" href="#">ABOUT</a></li>
+                    <li><a class="footer_nav" href="#">TERMS & CONDITIONS</a></li>
+                    <li><a class="footer_nav" href="#">CONTACT</a></li>
+                </ul>
+            </nav>
+        </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 </body>
