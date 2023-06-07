@@ -2,7 +2,18 @@
 
 require_once "bdd/DAO.php";
 
-class MovieController{
+class MovieController {
+
+    private static $instance = null;
+
+    public static function getInstance() {
+        if (self::$instance) {
+            return self::$instance;
+        } else {
+            self::$instance = new MovieController();
+            return self::$instance;
+        }
+    }
 
     public function findAllFilms()  {
 
@@ -44,7 +55,7 @@ class MovieController{
                     SEC_TO_TIME(f.duree*60) AS tempsHeure,
                     f.note,
                     f.synopsis,
-                    CONCAT(f.id_realisateur, ' ', p.prenom, p.nom) AS affichageRea
+                    CONCAT(f.id_realisateur, ' ' ,p.prenom, ' ', p.nom) AS affichageRea
                 FROM film f
                 INNER JOIN realisateur re ON re.id_realisateur = f.id_realisateur
                 INNER JOIN personne p ON p.id_personne = re.id_personne
@@ -52,7 +63,101 @@ class MovieController{
 
         $film = $dao->executerRequete($sql);
 
+        $actors = PersonController::getInstance()->getActorsByFilmId($id);
+
+
         require "views/movie/detailFilm.php";
+    }
+
+    // find... => récupérer des données depuis la BDD + rediriger vers une view
+    // get...  => récupérer des données depuis la BDD et les retourner
+
+    public function getFilmsByActorId($id) {
+
+        $dao = new DAO();
+
+        $sql = "SELECT
+                    f.id_film,
+                    f.titre,
+                    f.affiche_film,
+                    DATE_FORMAT(f.date_sortie_france, '%e %M %Y') AS sortieSalleFrance,
+                    SEC_TO_TIME(f.duree*60) AS tempsHeure,
+                    f.note
+                FROM film f
+                INNER JOIN casting c ON c.id_film = f.id_film
+                INNER JOIN acteur a ON a.id_acteur = c.id_acteur
+                WHERE a.id_acteur = $id;
+            ";
+
+        $films = $dao->executerRequete($sql);
+
+        return $films;
+    }
+
+    public function getFilmsByDirectorId($id) {
+
+        $dao = new DAO();
+
+        $sql = "SELECT
+                    f.id_film,
+                    f.titre,
+                    f.affiche_film,
+                    DATE_FORMAT(f.date_sortie_france, '%e %M %Y') AS sortieSalleFrance,
+                    SEC_TO_TIME(f.duree*60) AS tempsHeure,
+                    f.note
+                FROM film f
+                INNER JOIN casting c ON c.id_film = f.id_film
+                INNER JOIN realisateur re ON re.id_realisateur = f.id_realisateur
+                WHERE re.id_realisateur = $id;
+            ";
+
+        $films = $dao->executerRequete($sql);
+
+        return $films;
+    }
+
+    public function getFilmsByRoleId($id) {
+
+        $dao = new DAO();
+
+        $sql = "SELECT
+                    f.id_film,
+                    f.titre,
+                    f.affiche_film,
+                    DATE_FORMAT(f.date_sortie_france, '%e %M %Y') AS sortieSalleFrance,
+                    SEC_TO_TIME(f.duree*60) AS tempsHeure,
+                    f.note
+                FROM film f
+                INNER JOIN casting c ON c.id_film = f.id_film
+                INNER JOIN role ro ON ro.id_role = c.id_role
+                WHERE ro.id_role = $id;
+            ";
+
+        $films = $dao->executerRequete($sql);
+
+        return $films;
+    }
+
+    public function getFilmsByGenreId($id) {
+
+        $dao = new DAO();
+
+        $sql = "SELECT
+                    f.id_film,
+                    f.titre,
+                    f.affiche_film,
+                    DATE_FORMAT(f.date_sortie_france, '%e %M %Y') AS sortieSalleFrance,
+                    SEC_TO_TIME(f.duree*60) AS tempsHeure,
+                    f.note
+                FROM appartenir ap
+                INNER JOIN film f ON f.id_film = ap.id_film
+                INNER JOIN genre g ON g.id_genre = ap.id_genre
+                WHERE g.id_genre = $id;
+            ";
+
+        $films = $dao->executerRequete($sql);
+
+        return $films;
     }
 
 }

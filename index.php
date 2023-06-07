@@ -10,10 +10,11 @@ require_once "controllers/RoleController.php";
 // je crée des instances des controlleurs
 
 $homeCtrl = new HomeController();
-$personCtrl = new PersonController();
-$filmCtrl = new MovieController();
-$genreCtrl = new GenreController();
-$roleCtrl = new RoleController();
+$personCtrl = PersonController::getInstance();
+// $filmCtrl = new MovieController();
+$filmCtrl = MovieController::getInstance();
+$genreCtrl = GenreController::getInstance();
+$roleCtrl = RoleController::getinstance();
 
 // l'index va intercepter la requête HTTP et vas orienter vers le bon controlleur et la bonne méthode
 
@@ -36,6 +37,7 @@ if(isset($_GET['action'])) {
         case "detailActor": $personCtrl->findOneActor($id); break;
         case "detailDirector": $personCtrl->findOneDirector($id); break;
         case "detailGenre": $genreCtrl->findOneGenre($id); break;
+        case "detailRole": $roleCtrl->findOneRole($id); break;
         // défaut
         default:
             $homeCtrl->homePage();
