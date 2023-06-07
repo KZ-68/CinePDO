@@ -22,7 +22,7 @@ while ($film = $films->fetch()) {
 </a>
 
 <?php
-    echo "<img class='posterMovie' src='{$film["affiche_film"]}'>";
+    echo "{$film["affiche_film"]}";
 ?>
   </div>  
 <?php
