@@ -1,10 +1,11 @@
 header {
     background-color: rgb(52, 52, 52);
-    padding: 20px 10px;
+    padding: 20px 20px;
 }
 
 #kzcine {
     color: white;
+    margin-bottom: 1.5rem;
 }
 
 .navTop {
@@ -17,14 +18,112 @@ ul {
     display: flex;
     flex-direction: row;
     gap: 25px;
+    align-items: center;
 }
 
 li {
     list-style: none;
 }
 
+.home_image_container {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 65px;
+}
+
+#h2_home {
+    position: absolute;
+    z-index: 1;
+}
+
+.caption_home {
+    filter: brightness(0.5);
+}
+
+#img_home {
+    width: 100%;
+    border-radius: 10px;
+}
+
+#home_section1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0px;
+}
+
+#h3_home {
+    font-size: 28px;
+}
+
+.movieWeek {
+    display: flex;
+    flex-direction: column;
+}
+
+.movieWeek_wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    width: 1087px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.figure_film {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.figure_actor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.link_film {
+    text-decoration: none;
+    color: #9c9cc0;
+}
+
+.link_actor {
+    text-decoration: none;
+    color: #9c9cc0;
+}
+
+.section_film1 {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.section_director1 {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.section_actor1 {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.section_role {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+
 main {
     padding: 15px;
+    background-color: #060715;
+    color: #9c9cc0;
 }
 
 .card_website {
@@ -36,6 +135,11 @@ main {
 }
 
 .posterMovie {
+    width: 200px;
+    height: 300px;
+}
+
+.photoPerson {
     width: 200px;
     height: 300px;
 }
@@ -54,7 +158,12 @@ footer {
     position: relative;
 }
 
-#groupFooter {
+.footer_container {
+    display: flex;
+    flex-direction: row;
+}
+
+#footer_group {
     display: flex;
     flex-direction: column;
     position: absolute;
@@ -62,7 +171,7 @@ footer {
     bottom: 10px;
 }
 
-#titlefooter {
+#footer_title {
     color: white;
 }
 
@@ -70,7 +179,7 @@ small {
     color: white;
 }
 
-.navFooter {
+.footer_nav {
     text-decoration: none;
     color: white;
 }
