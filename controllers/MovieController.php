@@ -160,6 +160,53 @@ class MovieController {
         return $films;
     }
 
+    public function addFilms(){
+        
+        $dao = new DAO();
+
+        // vérifie si la table de la méthode POST existe
+        if (isset($_POST['addFilm'])) {
+            $idFilm = $_GET['id_film'];
+            $titre = $_POST['titre'];
+            $date = $_POST['date_sortie_france'];
+            $duree = $_POST['duree'];
+            $synopsis = $_POST['synopsis'];
+            $note = $_POST['note'];
+            $affiche_film = $_POST['affiche_film'];
+            $genre = $_POST['id_genre'];
+            $idRealisateur = $_POST['id_realisateur'];
+
+        $sql = "INSERT INTO film (titre, date_sortie_france, duree, synopsis, note, affiche_film,  id_realisateur) 
+        VALUES (:titre, :date_sortie_france, :duree, :synopsis, :note, :affiche_film, :id_realisateur)";
+
+        $params = [
+            ":titre" => $titre,
+            ":date_sortie_france" => $date,
+            ":duree" => $duree,
+            ":note" => $note,
+            ":synopsis" => $synopsis,
+            ":affiche_film" => $affiche_film,
+            ":id_realisateur" => $idRealisateur
+            ];
+
+        $addFilm = $dao->executerRequete($sql, $params);
+
+        // Vérifiez si l'ID du film est valide avant d'insérer dans la table "appartenir"
+        if ($idFilm) {
+            // Insérez les données dans la table "appartenir"
+            $sqlAppartenir = "INSERT INTO appartenir (id_film, id_genre) VALUES (:id_film, :id_genre)";
+            $paramsAppartenir = [
+                            ":id_film" => $idFilm,
+                            ":id_genre" => $genre
+                            ];
+            $addAppartenir = $dao->executerRequete($sqlAppartenir, $paramsAppartenir);
+            };
+
+        }
+        require "views/movie/addFilms.php";
+    }
+
+
 }
 
 ?> 
