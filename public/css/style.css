@@ -25,6 +25,15 @@ li {
     list-style: none;
 }
 
+input {
+    border-radius: 15px;
+    border: none;
+}
+
+input#affiche_film {
+    border-radius: 0px;
+}
+
 .home_image_container {
     position: relative;
     display: flex;
@@ -144,6 +153,13 @@ li {
     width: 900px;
     border: 2px solid;
     border-radius: 10px;
+}
+
+.addGenres_btn {
+    padding: 5px;
+    border: 2px solid;
+    border-radius: 5px;
+    width: 127px;
 }
 
 .formular_base {
