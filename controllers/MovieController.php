@@ -185,7 +185,7 @@ class MovieController {
             ":duree" => $duree,
             ":note" => $note,
             ":synopsis" => $synopsis,
-            ":affiche_film" => $affiche_film,
+            ":affiche_film" => "<img class='posterMovie' src='public/image/{$affiche_film}'>",
             ":id_realisateur" => $idRealisateur
             ];
 
