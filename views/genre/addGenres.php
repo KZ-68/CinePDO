@@ -5,9 +5,9 @@ ob_start();
 
 <section class="section_addGenres">
 
-<h2 id='h2_addFilms'>Ajout Genre</h2>
+<h2 id='h2_addGenres'>Ajout Genre</h2>
 
-    <div class="addFilms_wrapper">
+    <div class="addGenres_wrapper">
         <form class='formular_base' action="" method="post">
             <div class="libelle">
                 <label for="libelle">Libellé du Genre :</label>
