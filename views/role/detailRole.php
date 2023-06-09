@@ -17,7 +17,7 @@ if ($role = $role->fetch()) {
 <?php  
     while ($film = $films->fetch()) {
         echo "<figure class='figure_film'>
-        {$film["affiche_film"]}"
+        <img class='posterMovie' src='./public/image/{$film['affiche_film']}'>"
     ?>
         <a class='link_film' href='index.php?action=detailFilm&id=<?=$film['id_film']?>'>
         <h5><?=$film['titre']?></h5></a>
@@ -32,7 +32,7 @@ if ($role = $role->fetch()) {
 <?php    
     while ($actor = $actors->fetch()) {
         echo "<figure class='figure_actor'>
-        {$actor["photo"]}"
+        <img class='posterMovie' src='./public/image/{$actor["photo"]}'>"
     ?>
         <a class='link_actor' href='index.php?action=detailActor&id=<?=$actor['id_acteur']?>'>
         <h5><?="{$actor["prenom"]} {$actor["nom"]}"?></h5></a>

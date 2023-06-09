@@ -8,7 +8,7 @@ if ($actor = $actor->fetch()) {
 
     // détail de l'acteur
     echo "<div class='card_website'>
-        {$actor["photo"]}<br/>
+    <img class='photoPerson' src='public/image/{$actor["photo"]}'<br/>
         Prénom et Nom de l'acteur : {$actor["prenom"]} {$actor["nom"]}<br/>
         Sexe : {$actor["sexe"]}<br/>
         Date de naissance : {$actor["date_naissance"]}</p>
@@ -21,7 +21,7 @@ if ($actor = $actor->fetch()) {
 <?php  
     while ($film = $films->fetch()) {
         echo "<figure class='figure_film'>
-        {$film["affiche_film"]}"
+        <img class='posterMovie' src='./public/image/{$film['affiche_film']}'>"
     ?>
         <a class='link_film' href='index.php?action=detailFilm&id=<?=$film['id_film']?>'>
         <h5><?=$film['titre']?></h5></a>

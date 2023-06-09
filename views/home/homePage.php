@@ -20,7 +20,7 @@ while ($film = $films->fetch()) {
 ?>
     <a href="index.php?action=detailFilm&id=<?=$film['id_film']?>">
         <!-- <p>Detail Film</p> -->
-        <h3><?= $film["affiche_film"] ?></h3>
+        <h3><img class='posterMovie' src='./public/image/<?=$film["affiche_film"]?>'></h3>
     </a>
     </div>
 
