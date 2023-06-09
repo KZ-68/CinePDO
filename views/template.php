@@ -19,6 +19,7 @@
                 <li><a class="navTop" href="index.php?action=listDirectors">Directors List</a></li>
                 <li><a class="navTop" href="index.php?action=listGenres">Genres List</a></li>
                 <li><a class="navTop" href="index.php?action=listRoles">Roles List</a></li>
+                <li><a class="navTop" href="index.php?action=addAppartenir">Ajouter un genre pour un film</a></li>
             </ul>
         </nav>
     </header>
