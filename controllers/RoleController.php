@@ -53,6 +53,27 @@ class RoleController{
         require "views/role/detailRole.php";
     }
 
+    public function addRoles(){
+        
+        $dao = new DAO();
+
+        // vérifie si la table de la méthode POST existe
+        if (isset($_POST['addRole'])) {
+            $nomRole = $_POST['nom_role'];
+
+        $sql = "INSERT INTO role (nom_role) 
+        VALUES (:nom_role)";
+
+        $params = [
+            ":nom_role" => $nomRole
+            ];
+
+        $addRole = $dao->executerRequete($sql, $params);
+
+        }
+
+        require "views/role/addRoles.php";
+    }
 }
 
 ?>
