@@ -44,6 +44,7 @@ if(isset($_GET['action'])) {
         case "addFilms": $filmCtrl->addFilms(); break;
         case "addGenres": $genreCtrl->addGenres(); break;
         case "addAppartenir": $appartenirCtrl->addAppartenir(); break;
+        case "addRoles": $roleCtrl->addRoles(); break;
         // défaut
         default:
             $homeCtrl->homePage();
