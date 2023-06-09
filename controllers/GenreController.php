@@ -53,9 +53,27 @@ class GenreController{
         require "views/genre/detailGenre.php";
     }
 
+    public function addGenres(){
+        
+        $dao = new DAO();
 
+        // vérifie si la table de la méthode POST existe
+        if (isset($_POST['addGenre'])) {
+            $libelle = $_POST['libelle'];
+
+        $sql = "INSERT INTO genre (libelle) 
+        VALUES (:libelle)";
+
+        $params = [
+            ":libelle" => $libelle
+            ];
+
+        $addGenre = $dao->executerRequete($sql, $params);
+
+        }
+
+        require "views/genre/addGenres.php";
+    }
 }
-
-
 
 ?>
