@@ -38,6 +38,8 @@ if(isset($_GET['action'])) {
         case "detailDirector": $personCtrl->findOneDirector($id); break;
         case "detailGenre": $genreCtrl->findOneGenre($id); break;
         case "detailRole": $roleCtrl->findOneRole($id); break;
+        // add
+        case "addFilms": $filmCtrl->addFilms(); break;
         // défaut
         default:
             $homeCtrl->homePage();
