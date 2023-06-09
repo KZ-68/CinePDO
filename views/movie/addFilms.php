@@ -25,36 +25,17 @@ ob_start();
                 <label for="note">Note :</label>
                 <input type="number" step="0.1" name="note" id="note" required>
             </div>
-            <div class="genre">
-                <label for="id_genre">Genre :</label>
-                <select name="id_genre" id="genre_film" required>
-                <?php
-                    // Récupére et sélectionn la liste des genres depuis ma base de données
-                    $dao = new DAO();
-                    $sql = "SELECT g.id_genre, g.libelle
-                            FROM genre g";
-                    $result = $dao->executerRequete($sql);
-                    
-                    // Parcouree les colonnes et affiche les options de la liste déroulante
-                    while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-                        $idgenre = $row['id_genre'];
-                        $libelle = $row['libelle'];
-                        echo "<option value='$idgenre'>$libelle</option>";
-                    }
-                ?>
-                </select>
-            </div>
             <label for="id_realisateur">Réalisateur :</label>
             <select name="id_realisateur" id="id_realisateur" required>
             <?php
-                // Récupérez la liste des réalisateurs depuis votre base de données
+                // Récupérer la liste des réalisateurs depuis ma base de données
                 $dao = new DAO();
                 $sql = "SELECT re.id_realisateur, p.nom, p.prenom 
                         FROM realisateur re
                         INNER JOIN personne p ON re.id_personne = p.id_personne";
                 $result = $dao->executerRequete($sql);
                 
-                // Parcourez les résultats et affichez les options de la liste déroulante
+                // Parcourir les résultats et afficher les options de la liste déroulante
                 while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
                     $idRealisateur = $row['id_realisateur'];
                     $prenomRealisateur = $row['prenom'];
