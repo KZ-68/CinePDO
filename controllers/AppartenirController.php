@@ -8,7 +8,7 @@ class AppartenirController{
 
         $dao = new DAO();
 
-        if (isset($_POST['addAppartenir'])) {
+        if (isset($_POST['appartenir'])) {
 
         $idFilm = $_POST['id_film'];
         $idgenre = $_POST['id_genre'];
