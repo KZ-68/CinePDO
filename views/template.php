@@ -20,6 +20,7 @@
                 <li><a class="navTop" href="index.php?action=listGenres">Genres List</a></li>
                 <li><a class="navTop" href="index.php?action=listRoles">Roles List</a></li>
                 <li><a class="navTop" href="index.php?action=addAppartenir">Ajouter un genre pour un film</a></li>
+                <li><a class="navTop" href="index.php?action=addPersons">Ajouter des personnes</a></li>
             </ul>
         </nav>
     </header>
