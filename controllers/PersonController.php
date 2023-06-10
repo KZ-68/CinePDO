@@ -145,6 +145,36 @@ class PersonController{
         return $actors;
     }
 
+    public function addPersons(){
+        
+        $dao = new DAO();
+
+        // vérifie si la table de la méthode POST existe
+        if (isset($_POST['addPerson'])) {
+            $photo = $_POST['photo'];
+            $prenom = $_POST['prenom'];
+            $nom = $_POST['nom'];
+            $sexe = $_POST['sexe'];
+            $dateNaissance = $_POST['date_naissance'];
+
+        $sql = "INSERT INTO personne (photo, prenom, nom, sexe, date_naissance) 
+        VALUES (:photo, :prenom, :nom, :sexe, :date_naissance)";
+
+        $params = [
+            ":photo" => $photo,
+            ":prenom" => $prenom,
+            ":nom" => $nom,
+            ":sexe" => $sexe,
+            ":date_naissance" => $dateNaissance
+            ];
+
+        $addPerson = $dao->executerRequete($sql, $params);
+
+        }
+
+        require "views/person/addPersons.php";
+    }
+
 }
 
 ?>
