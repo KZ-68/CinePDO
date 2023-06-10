@@ -34,6 +34,10 @@ input#affiche_film {
     border-radius: 0px;
 }
 
+input#photo {
+    border-radius: 0px;
+}
+
 .home_image_container {
     position: relative;
     display: flex;
@@ -159,7 +163,22 @@ input#affiche_film {
     padding: 5px;
     border: 2px solid;
     border-radius: 5px;
-    width: 127px;
+    width: 140px;
+}
+
+.addGenres_link {
+    text-decoration: none;
+}
+
+.addRoles_btn {
+    padding: 5px;
+    border: 2px solid;
+    border-radius: 5px;
+    width: 129px;
+}
+
+.addRoles_link {
+    text-decoration: none;
 }
 
 .formular_base {
