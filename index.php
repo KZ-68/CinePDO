@@ -42,6 +42,7 @@ if(isset($_GET['action'])) {
         case "detailRole": $roleCtrl->findOneRole($id); break;
         // add
         case "addFilms": $filmCtrl->addFilms(); break;
+        case "addPersons": $personCtrl->addPersons(); break;
         case "addGenres": $genreCtrl->addGenres(); break;
         case "addAppartenir": $appartenirCtrl->addAppartenir(); break;
         case "addRoles": $roleCtrl->addRoles(); break;
