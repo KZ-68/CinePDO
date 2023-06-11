@@ -175,6 +175,51 @@ class PersonController{
         require "views/person/addPersons.php";
     }
 
+    public function addDirectors(){
+        
+        $dao = new DAO();
+
+        // vérifie si la table de la méthode POST existe
+        if (isset($_POST['addDirector'])) {
+            $idPersonne = $_POST['id_personne'];
+
+        $sql = "INSERT INTO realisateur (id_personne) 
+        VALUES (:id_personne)";
+
+        $params = [
+            ":id_personne" => $idPersonne
+            ];
+
+        $addPerson = $dao->executerRequete($sql, $params);
+
+        }
+
+        require "views/director/addDirectors.php";
+    }
+
+    public function addActors(){
+        
+        $dao = new DAO();
+
+        // vérifie si la table de la méthode POST existe
+        if (isset($_POST['addActor'])) {
+            $idPersonne = $_POST['id_personne'];
+
+        $sql = "INSERT INTO acteur (id_personne) 
+        VALUES (:id_personne)";
+
+        $params = [
+            ":id_personne" => $idPersonne
+            ];
+
+        $addPerson = $dao->executerRequete($sql, $params);
+
+        }
+
+        require "views/actor/addActors.php";
+    }
+
+
 }
 
 ?>
