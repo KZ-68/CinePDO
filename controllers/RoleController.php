@@ -3,17 +3,17 @@
 require_once "bdd/DAO.php";
 
 class RoleController{
+    
+    // private static $instance = null;
 
-    private static $instance = null;
-
-    public static function getInstance() {
-        if (self::$instance) {
-            return self::$instance;
-        } else {
-            self::$instance = new RoleController();
-            return self::$instance;
-        }
-    }
+    // public static function getInstance() {
+    //     if (self::$instance) {
+    //         return self::$instance;
+    //     } else {
+    //         self::$instance = new RoleController();
+    //         return self::$instance;
+    //     }
+    // }
 
     public function findAllRoles()  {
 
@@ -43,12 +43,47 @@ class RoleController{
                     casting c
                 INNER JOIN role ro ON ro.id_role = c.id_role
                 INNER JOIN film f ON f.id_film = c.id_film
-                WHERE ro.id_role = $id;";
+                WHERE ro.id_role = :id_role";
 
-        $role = $dao->executerRequete($sql);
+            $params = [
+                ":id_role" => $id
+            ];
 
-        $films = MovieController::getInstance()->getFilmsByRoleId($id);
-        $actors = PersonController::getInstance()->getActorsByRoleId($id);
+        $role = $dao->executerRequete($sql, $params);
+
+        $sql2 = "SELECT
+                    f.id_film,
+                    f.titre,
+                    f.affiche_film
+                FROM 
+                    casting c 
+                INNER JOIN film f ON f.id_film = c.id_film
+                INNER JOIN role ro ON ro.id_role = c.id_role
+                WHERE ro.id_role = :id_role";
+
+            $params2 = [
+                ":id_role" => $id
+            ];
+
+        $filmsRole = $dao->executerRequete($sql2, $params2);
+
+        $sql3 = "SELECT
+                    c.id_acteur,
+                    p.photo,
+                    p.prenom,
+                    p.nom
+                FROM
+                    casting c
+                INNER JOIN acteur a ON a.id_acteur = c.id_acteur
+                INNER JOIN personne p ON p.id_personne = a.id_personne
+                INNER JOIN role ro ON ro.id_role = c.id_role
+                WHERE ro.id_role = :id_role";
+
+            $params3 = [
+                ":id_role" => $id
+            ];
+
+        $actorsRole = $dao->executerRequete($sql3, $params3);
 
         require "views/role/detailRole.php";
     }
