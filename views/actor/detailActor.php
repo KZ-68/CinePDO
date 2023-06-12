@@ -19,7 +19,7 @@ if ($actor = $actor->fetch()) {
 <h4>Filmographie de l'acteur</h4>
 <section class="section_actor1">
 <?php  
-    while ($film = $films->fetch()) {
+    while ($film = $filmsActor->fetch()) {
         echo "<figure class='figure_film'>
         <img class='posterMovie' src='./public/image/{$film['affiche_film']}'>"
     ?>
