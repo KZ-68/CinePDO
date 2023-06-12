@@ -3,24 +3,13 @@
 require_once "bdd/DAO.php";
 
 class PersonController{
-
-    private static $instance = null;
-
-    public static function getInstance() {
-        if (self::$instance) {
-            return self::$instance;
-        } else {
-            self::$instance = new PersonController();
-            return self::$instance;
-        }
-    }
     
     public function findAllActors()  {
 
         $dao = new DAO();
 
         $sql = "SELECT
-                    ac.id_acteur,
+                    a.id_acteur,
                     p.id_personne,
                     p.photo,
                     p.prenom,
@@ -29,7 +18,7 @@ class PersonController{
                     p.date_naissance
                 FROM
                     personne p
-                INNER JOIN acteur ac ON ac.id_personne = p.id_personne";
+                INNER JOIN acteur a ON a.id_personne = p.id_personne";
 
         $actors = $dao->executerRequete($sql);
 
@@ -50,11 +39,29 @@ class PersonController{
                     casting c
                 INNER JOIN acteur ac ON ac.id_acteur = c.id_acteur
                 INNER JOIN personne p ON p.id_personne = ac.id_personne
-                WHERE ac.id_acteur = $id;";
+                WHERE ac.id_acteur = :id_acteur";
 
-        $actor = $dao->executerRequete($sql);
+            $params = [
+                ":id_acteur" => $id
+            ];
 
-        $films = MovieController::getInstance()->getFilmsByActorId($id);
+        $actor = $dao->executerRequete($sql, $params);
+
+        $sql2 = "SELECT
+                    f.id_film,
+                    f.titre,
+                    f.affiche_film
+                FROM
+                    casting c
+                INNER JOIN film f ON f.id_film = c.id_film
+                INNER JOIN acteur ac ON ac.id_acteur = c.id_acteur
+                WHERE c.id_acteur = :id_acteur";
+        
+            $params2 = [
+                ":id_acteur" => $id
+            ];
+
+        $filmsActor = $dao->executerRequete($sql2, $params2);
 
         require "views/actor/detailActor.php";
     }
@@ -86,43 +93,41 @@ class PersonController{
         $dao = new DAO();
 
         $sql = "SELECT
+                    re.id_realisateur,
                     p.photo,
                     p.prenom,
                     p.nom,
                     p.sexe,
                     p.date_naissance
                 FROM
-                    casting c
-                INNER JOIN film f ON f.id_film = c.id_film
+                    film f
                 INNER JOIN realisateur re ON re.id_realisateur = f.id_realisateur
                 INNER JOIN personne p ON p.id_personne = re.id_personne
-                WHERE re.id_realisateur = $id;";
+                WHERE re.id_realisateur = :id_realisateur";
 
-        $director = $dao->executerRequete($sql);
+            $params = [
+                ":id_realisateur" => $id,
+            ];
 
-        $films = MovieController::getInstance()->getFilmsByDirectorId($id);
+        // $films = MovieController::getInstance()->getFilmsByDirectorId($id);
+        $director = $dao->executerRequete($sql, $params);
+
+        $sql2 = "SELECT 
+                    f.id_film,
+                    f.titre,
+                    f.affiche_film
+                FROM
+                    film f
+                INNER JOIN realisateur re ON re.id_realisateur = f.id_realisateur
+                WHERE f.id_realisateur = :id_realisateur";
+
+        $params2 = [
+            ":id_realisateur" => $id
+        ];
+
+        $directorFilms = $dao->executerRequete($sql2, $params2);
 
         require "views/director/detailDirector.php";
-    }
-
-    public function getActorsByFilmId($id) {
-
-        $dao = new DAO();
-
-        $sql = "SELECT
-                    a.id_acteur,
-                    p.photo,
-                    p.prenom,
-                    p.nom
-                FROM acteur a
-                INNER JOIN personne p ON p.id_personne = a.id_personne
-                INNER JOIN casting c ON c.id_acteur = a.id_acteur
-                INNER JOIN film f ON f.id_film = c.id_film
-                WHERE f.id_film = $id;";
-
-        $actors = $dao->executerRequete($sql);
-
-        return $actors;
     }
 
     public function getActorsByRoleId($id) {
