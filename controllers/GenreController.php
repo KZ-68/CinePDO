@@ -4,17 +4,6 @@ require_once "bdd/DAO.php";
 
 class GenreController{
 
-    private static $instance = null;
-
-    public static function getInstance() {
-        if (self::$instance) {
-            return self::$instance;
-        } else {
-            self::$instance = new GenreController();
-            return self::$instance;
-        }
-    }
-
     public function findAllGenres()  {
 
         $dao = new DAO();
@@ -37,18 +26,22 @@ class GenreController{
         $sql = "SELECT
                     g.id_genre,
                     g.libelle,
+                    f.id_film,
                     f.titre,
+                    f.affiche_film,
                     DATE_FORMAT(f.date_sortie_france, '%e %M %Y') AS sortieSalleFrance,
                     SEC_TO_TIME(f.duree*60) AS tempsHeure
                 FROM
                     appartenir ap
                 INNER JOIN film f ON f.id_film = ap.id_film
                 INNER JOIN genre g ON g.id_genre = ap.id_genre
-                WHERE g.id_genre = $id;";
+                WHERE ap.id_genre = :id_genre";
 
-        $genre = $dao->executerRequete($sql);
+            $params = [
+                ":id_genre" => $id,
+            ];
 
-        $films = MovieController::getInstance()->getFilmsByGenreId($id);
+        $genre = $dao->executerRequete($sql, $params);
 
         require "views/genre/detailGenre.php";
     }
@@ -73,6 +66,27 @@ class GenreController{
         }
 
         require "views/genre/addGenres.php";
+    }
+
+    public function deleteGenres(){
+
+        $dao = new DAO();
+
+        // vérifie si la table de la méthode POST existe
+        if (isset($_POST['deleteGenre'])) {
+            $idGenre = $_POST['id_genre'];
+
+            $sql = "DELETE FROM genre
+            WHERE id_genre = :id_genre";
+
+            $params = [
+                ":id_genre" => $idGenre
+            ];
+
+            $deleteGenre = $dao->executerRequete($sql, $params);
+
+        }
+        require "views/genre/deleteGenres.php";
     }
 }
 
