@@ -11,11 +11,10 @@ require_once "controllers/AppartenirController.php";
 // je crée des instances des controlleurs
 
 $homeCtrl = new HomeController();
-$personCtrl = PersonController::getInstance();
-// $filmCtrl = new MovieController();
-$filmCtrl = MovieController::getInstance();
-$genreCtrl = GenreController::getInstance();
-$roleCtrl = RoleController::getinstance();
+$personCtrl = new PersonController();
+$filmCtrl = new MovieController();
+$genreCtrl = new GenreController();
+$roleCtrl = new RoleController();
 $appartenirCtrl = new AppartenirController();
 
 // l'index va intercepter la requête HTTP et vas orienter vers le bon controlleur et la bonne méthode
@@ -25,7 +24,8 @@ $appartenirCtrl = new AppartenirController();
 if(isset($_GET['action'])) {
 
     // $id = filter_input(INPUT_GET,'id', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    $id = filter_input(INPUT_GET,'id', FILTER_SANITIZE_NUMBER_INT);
+    $id = filter_input(INPUT_GET,'id', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $id2 = filter_input(INPUT_GET,'id', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
     switch($_GET['action']) {
         // listes
@@ -43,9 +43,16 @@ if(isset($_GET['action'])) {
         // add
         case "addFilms": $filmCtrl->addFilms(); break;
         case "addPersons": $personCtrl->addPersons(); break;
+        case "addActors": $personCtrl->addActors(); break;
+        case "addDirectors": $personCtrl->addDirectors(); break;
         case "addGenres": $genreCtrl->addGenres(); break;
         case "addAppartenir": $appartenirCtrl->addAppartenir(); break;
         case "addRoles": $roleCtrl->addRoles(); break;
+        // modify
+        case "modifyFilms": $filmCtrl->modifyFilms($id, $id2); break;
+        // delete
+        case "deleteFilms": $filmCtrl->deleteFilms(); break;
+        case "deleteGenres": $genreCtrl->deleteGenres(); break;
         // défaut
         default:
             $homeCtrl->homePage();
@@ -55,9 +62,4 @@ if(isset($_GET['action'])) {
     $homeCtrl->homePage();
 }
 
-// if(isset($_GET['action']) && ($_GET['id'])) {
-//     switch($_GET['action'] && $_GET['id']) {
-//         case "detailFilm": $filmCtrl->findOneFilm(); break;
-//     }
-// }
 ?>
