@@ -35,7 +35,7 @@ if ($actor = $actor->fetch()) {
 
 <?php
  
- $title = "Détails de l'acteur";
+$title = "Détails de l'acteur";
 $content = ob_get_clean();
 require "views/template.php"
 ?>
