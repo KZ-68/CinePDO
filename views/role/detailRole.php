@@ -15,7 +15,7 @@ if ($role = $role->fetch()) {
 <h4>Film où le rôle apparait</h4>
 <section class="section_role">
 <?php  
-    while ($film = $films->fetch()) {
+    while ($film = $filmsRole->fetch()) {
         echo "<figure class='figure_film'>
         <img class='posterMovie' src='./public/image/{$film['affiche_film']}'>"
     ?>
@@ -30,7 +30,7 @@ if ($role = $role->fetch()) {
 <h4>Acteurs jouant ce rôle</h4>
 <section class="section_role">
 <?php    
-    while ($actor = $actors->fetch()) {
+    while ($actor = $actorsRole->fetch()) {
         echo "<figure class='figure_actor'>
         <img class='posterMovie' src='./public/image/{$actor["photo"]}'>"
     ?>
