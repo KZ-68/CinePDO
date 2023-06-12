@@ -90,7 +90,7 @@ class MovieController {
             ":id_film" => $id 
         ];
 
-        $actorFilm = $dao->executerRequete($sql3, $params3);
+        $actorsFilm = $dao->executerRequete($sql3, $params3);
 
         $sql4 = "SELECT
                 f.id_film,
@@ -106,7 +106,7 @@ class MovieController {
                 ":id_film" => $id
             ];
 
-        $reaFilm = $dao->executerRequete($sql4, $params4);
+        $directorFilm = $dao->executerRequete($sql4, $params4);
 
         require "views/movie/detailFilm.php";
     }
