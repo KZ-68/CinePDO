@@ -17,9 +17,10 @@ class DAO{
     public function executerRequete($sql, $params = NULL) {        
         if ($params == NULL){            
             $resultat = $this->bdd->query($sql);
-            // query : Prépare et Exécute une requête SQL  
+            // query : Prépare et Exécute une requête SQL sans marqueur de substitution 
         }else{            
-            $resultat = $this->bdd->prepare($sql);           
+            $resultat = $this->bdd->prepare($sql);
+            // Pour nous protéger des injections SQL, nous utilisons une requête préparée   
             $resultat->execute($params);        
         }        
         return $resultat;    
