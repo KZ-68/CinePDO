@@ -38,10 +38,26 @@ class GenreController{
                 WHERE ap.id_genre = :id_genre";
 
             $params = [
-                ":id_genre" => $id,
+                ":id_genre" => $id
             ];
 
         $genre = $dao->executerRequete($sql, $params);
+
+        $sql2 = "SELECT
+                    f.id_film,
+                    f.titre,
+                    f.affiche_film
+                FROM
+                    appartenir ap
+                INNER JOIN film f ON f.id_film = ap.id_film
+                INNER JOIN genre g ON g.id_genre = ap.id_genre
+                WHERE ap.id_genre = :id_genre";
+
+            $params2 = [
+                ":id_genre" => $id
+            ];
+
+            $filmsGenre = $dao->executerRequete($sql2, $params2);
 
         require "views/genre/detailGenre.php";
     }
