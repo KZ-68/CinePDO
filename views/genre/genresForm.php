@@ -8,12 +8,12 @@ ob_start();
 <h2 id='h2_addGenres'>Ajout Genre</h2>
 
     <div class="addGenres_wrapper">
-        <form class='formular_base' action="" method="post">
+        <form class='formular_base' action="index.php?action=addGenres" method="post">
             <div class="libelle">
                 <label for="libelle">Libellé du Genre :</label>
                 <input type="text" name="libelle" id="libelle" required>
             </div>
-            <input id="submit" type="submit" name="addGenre" value="Ajouter">
+            <input id="submit" type="submit" name="addGenres" value="Ajouter">
         </form>
     </div>
 
