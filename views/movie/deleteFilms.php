@@ -29,7 +29,7 @@ ob_start();
         ?>
     </select>
 
-    <input id="submit" type="submit" name="removeFilm" value="Supprimer">
+    <input id="submit" type="submit" name="deleteFilm" value="Supprimer">
 </form>
 
 <?php
