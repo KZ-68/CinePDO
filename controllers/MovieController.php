@@ -114,82 +114,80 @@ class MovieController {
     // find... => récupérer des données depuis la BDD + rediriger vers une view
     // get...  => récupérer des données depuis la BDD et les retourner
 
-    public function getFilmsByRoleId($id) {
+    // public function getFilmsByRoleId($id) {
 
-        $dao = new DAO();
+    //     $dao = new DAO();
 
-        $sql = "SELECT
-                    f.id_film,
-                    f.titre,
-                    f.affiche_film,
-                    DATE_FORMAT(f.date_sortie_france, '%e %M %Y') AS sortieSalleFrance,
-                    SEC_TO_TIME(f.duree*60) AS tempsHeure,
-                    f.note
-                FROM film f
-                INNER JOIN casting c ON c.id_film = f.id_film
-                INNER JOIN role ro ON ro.id_role = c.id_role
-                WHERE ro.id_role = $id;
-            ";
+    //     $sql = "SELECT
+    //                 f.id_film,
+    //                 f.titre,
+    //                 f.affiche_film,
+    //                 DATE_FORMAT(f.date_sortie_france, '%e %M %Y') AS sortieSalleFrance,
+    //                 SEC_TO_TIME(f.duree*60) AS tempsHeure,
+    //                 f.note
+    //             FROM film f
+    //             INNER JOIN casting c ON c.id_film = f.id_film
+    //             INNER JOIN role ro ON ro.id_role = c.id_role
+    //             WHERE ro.id_role = $id;
+    //         ";
 
-        $films = $dao->executerRequete($sql);
+    //     $films = $dao->executerRequete($sql);
 
-        return $films;
-    }
+    //     return $films;
+    // }
 
-    public function getFilmsByGenreId($id) {
-
-        $dao = new DAO();
-
-        $sql = "SELECT
-                    f.id_film,
-                    f.titre,
-                    f.affiche_film,
-                    DATE_FORMAT(f.date_sortie_france, '%e %M %Y') AS sortieSalleFrance,
-                    SEC_TO_TIME(f.duree*60) AS tempsHeure,
-                    f.note
-                FROM appartenir ap
-                INNER JOIN film f ON f.id_film = ap.id_film
-                INNER JOIN genre g ON g.id_genre = ap.id_genre
-                WHERE g.id_genre = $id;
-            ";
-
-        $films = $dao->executerRequete($sql);
-
-        return $films;
-    }
-
-    public function addFilms(){
+    public function openFilmsForm() {
         
         $dao = new DAO();
 
-        // vérifie si la table de la méthode POST existe
-        if (isset($_POST['addFilm'])) {
-            $titre = $_POST['titre'];
-            $date = $_POST['date_sortie_france'];
-            $duree = $_POST['duree'];
-            $synopsis = $_POST['synopsis'];
-            $note = $_POST['note'];
-            $affiche_film = $_POST['affiche_film'];
-            $idRealisateur = $_POST['id_realisateur'];
+        $sql = "SELECT re.id_realisateur, p.nom, p.prenom 
+                        FROM realisateur re
+                        INNER JOIN personne p ON re.id_personne = p.id_personne";
 
-        $sql = "INSERT INTO film (titre, date_sortie_france, duree, synopsis, note, affiche_film,  id_realisateur) 
-        VALUES (:titre, :date_sortie_france, :duree, :synopsis, :note, :affiche_film, :id_realisateur)";
+        $filmDirector = $dao->executerRequete($sql);
 
+        $sql2 = "SELECT id_genre, g.libelle
+                FROM genre g";            
+            
+        $filmGenres = $dao->executerRequete($sql2);
 
-        $params = [
-            ":titre" => $titre,
-            ":date_sortie_france" => $date,
-            ":duree" => $duree,
-            ":note" => $note,
-            ":synopsis" => $synopsis,
-            ":affiche_film" => $affiche_film,
-            ":id_realisateur" => $idRealisateur
-            ];
+        require "views/movie/filmsForm.php";
+    }
 
-        $addFilm = $dao->executerRequete($sql, $params);
+    public function addFilms($array) {
+        
+        $dao = new DAO();
+        
+        $sql = "INSERT INTO film (titre, date_sortie_france, duree, note, id_realisateur, affiche_film, synopsis) 
+        VALUES (:titre, :date_sortie_france, :duree, :note, :id_realisateur, :affiche_film, :synopsis)";
 
-        }
-        require "views/movie/addFilms.php";
+        $titre = filter_input(INPUT_POST, "titre", FILTER_SANITIZE_FULL_SPECIAL_CHARS);  
+        $date_sortie = filter_input(INPUT_POST, "date_sortie_france");
+        $duree = filter_input(INPUT_POST, "duree", FILTER_SANITIZE_NUMBER_INT);
+        $synopsis = filter_input(INPUT_POST, "synopsis", FILTER_SANITIZE_FULL_SPECIAL_CHARS);               
+        $note = filter_input(INPUT_POST, "note", FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+        $idRealisateur = filter_input(INPUT_POST,'id_realisateur', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $idGenres = filter_var_array($array['id_genre'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $affiche_film = filter_input(INPUT_POST, "affiche_film", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+        $addFilms = $dao->executerRequete($sql, ['titre' => $titre, 'date_sortie_france' => $date_sortie, 'duree' => $duree, 'note' => $note, 'id_realisateur' =>  $idRealisateur, 'synopsis' => $synopsis, 'affiche_film' => $affiche_film]);
+        
+
+        $sql2 = "INSERT INTO appartenir (id_film, id_genre)
+        VALUES (:id_film, :id_genre)"; 
+        
+        $lastFilmId = $dao->getBDD()->lastInsertId(); // retourne le dernier identifiant insérée par PDO
+
+        foreach ($idGenres as $id_genre) {
+
+            $addGenresFilm = $dao->executerRequete($sql2, [':id_film' => $lastFilmId, ':id_genre' => $id_genre]);
+            
+        }         
+
+        // Comme la session est déjà démarré dans les autres fichiers, on peut créer un tableau de $_SESSION pour afficher un message
+        $_SESSION['flash_message'] = "Le film " .$titre. " à été ajouté avec succès !";
+        // Retourne l'objet en cours et réaffiche la liste des films 
+        $this->findAllFilms();
     }
 
     public function modifyFilms($idFilm, $idGenre){
