@@ -26,7 +26,15 @@
     </header>
 
     <main>
-
+    <div class="flash">
+    <?php
+        if(isset($_SESSION['flash_message'])) {
+            $message = $_SESSION['flash_message'];
+            echo $message;
+            unset($_SESSION['flash_message']);
+        }
+    ?>
+    </div>
     <?= $content ?>
     </main>
 
