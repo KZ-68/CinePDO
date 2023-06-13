@@ -3,19 +3,19 @@ ob_start();
 // démarre la temporisation de sortie
 ?>
 
-<section class="section_addFilms">
+<section class="section_filmsForm">
 
-<h2 id='h2_addFilms'>Ajout Film</h2>
+<h2 id='h2_filmsForm'>Ajout Film</h2>
 
-    <div class="addFilms_wrapper">
-        <form class='formular_base' action="" method="post">
+    <div class="filmsForm_wrapper">
+        <form class='formular_base' action="index.php?action=addFilms" method="post">
             <div class="titre">
                 <label for="titre">Titre :</label>
                 <input type="text" name="titre" id="titre" required>
             </div>
             <div class="date_sortie">
                 <label for="date_sortie_france">Date de sortie en France :</label>
-                <input type="text" name="date_sortie_france" id="date_sortie_france" required>
+                <input type="date" name="date_sortie_france" id="date_sortie_france" required>
             </div>
             <div class="duree">
                 <label for="duree">Durée :</label>
@@ -25,33 +25,34 @@ ob_start();
                 <label for="note">Note :</label>
                 <input type="number" step="0.1" name="note" id="note" required>
             </div>
+            
             <label for="id_realisateur">Réalisateur :</label>
             <select name="id_realisateur" id="id_realisateur" required>
             <?php
-                // Récupérer la liste des réalisateurs depuis ma base de données
-                $dao = new DAO();
-                $sql = "SELECT re.id_realisateur, p.nom, p.prenom 
-                        FROM realisateur re
-                        INNER JOIN personne p ON re.id_personne = p.id_personne";
-                $result = $dao->executerRequete($sql);
-                
-                // Parcourir les résultats et afficher les options de la liste déroulante
-                while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+            while ($row = $filmDirector->fetch(PDO::FETCH_ASSOC)) {
                     $idRealisateur = $row['id_realisateur'];
                     $prenomRealisateur = $row['prenom'];
                     $nomRealisateur = $row['nom'];
                     echo "<option value='$idRealisateur'>$prenomRealisateur $nomRealisateur</option>";
-                }
-                ?>
+            }
+            ?>
             </select>
 
-            <label for="affiche_film">Affiche :</label>
-            <input type="file" name="affiche_film" id="affiche_film">
-            
+            <label for="id_genre">Genre :</label>
+            <select name="id_genre" id="id_genre[]" multiple required>
+            <?php
+            while ($genre = $filmGenres->fetch()) {
+                    echo "<option value=".$genre['id_genre'].">".$genre['libelle']."</option>";
+            }
+            ?>
+            </select>
+
+            <input id="affiche_film" name="affiche_film" type="file"/>
+
             <label for="synopsis">Synopsis :</label>
             <textarea name="synopsis" id="synopsis" rows="4" required></textarea>
 
-            <input id="submit" type="submit" name="addFilm" value="Ajouter">
+            <input id="submit" type="submit" name="addFilms" value="Ajouter">
         </form>
     </div>
 
