@@ -40,12 +40,15 @@ if(isset($_GET['action'])) {
         case "detailDirector": $personCtrl->findOneDirector($id); break;
         case "detailGenre": $genreCtrl->findOneGenre($id); break;
         case "detailRole": $roleCtrl->findOneRole($id); break;
+        // formulaire
+        case "filmsForm": $filmCtrl->openFilmsForm(); break;
+        case "genresForm": $genreCtrl->openGenresForm(); break;
         // add
-        case "addFilms": $filmCtrl->addFilms(); break;
+        case "addGenres": $genreCtrl->addGenres(); break;
+        case "addFilms": $filmCtrl->addFilms($_POST); break;
         case "addPersons": $personCtrl->addPersons(); break;
         case "addActors": $personCtrl->addActors(); break;
         case "addDirectors": $personCtrl->addDirectors(); break;
-        case "addGenres": $genreCtrl->addGenres(); break;
         case "addAppartenir": $appartenirCtrl->addAppartenir(); break;
         case "addRoles": $roleCtrl->addRoles(); break;
         // modify
