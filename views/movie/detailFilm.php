@@ -14,9 +14,11 @@ if ($film = $film->fetch()) {
     <img class='posterMovie' src='./public/image/{$film['affiche_film']}'>
     <p>Date de sortie en France : {$film["sortieSalleFrance"]}</p>
     <p>Durée : {$film["tempsHeure"]}</p>";
-    if ($genreFilm = $genreFilm->fetch()) {
-        echo "<p>Genre : <a href='index.php?action=detailGenre&id={$genreFilm['id_genre']}'>
-         {$genreFilm["libelle"]}</a></p>";
+    while ($genre = $genreFilm->fetch()) {
+        ?>
+        <p>Genre : <a href='index.php?action=detailGenre&id=<?=$genre['id_genre']?>'>
+         <?=$genre["libelle"]?></a></p>
+        <?php
     }
 
     echo 
@@ -37,7 +39,7 @@ if ($film = $film->fetch()) {
             <a href='index.php?action=detailActor&id=<?=$actor['id_personne']?>'>
             <h5><?=$actor["prenom"]?> <?=$actor["nom"]?></h5></a>
         </figcaption>
-        </figure>;
+        </figure>
         <?php
     }
 
@@ -49,7 +51,7 @@ if ($film = $film->fetch()) {
             <a href='index.php?action=detailDirector&id=<?=$director['id_film']?>'>
             <h5><?=$director["affichageRea"]?></h5></a>
         </figcaption>
-        </figure>;
+        </figure>
         <?php
     }
 
