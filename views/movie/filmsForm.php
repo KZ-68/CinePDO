@@ -29,17 +29,17 @@ ob_start();
             <label for="id_realisateur">Réalisateur :</label>
             <select name="id_realisateur" id="id_realisateur" required>
             <?php
-            while ($row = $filmDirector->fetch(PDO::FETCH_ASSOC)) {
-                    $idRealisateur = $row['id_realisateur'];
-                    $prenomRealisateur = $row['prenom'];
-                    $nomRealisateur = $row['nom'];
+            while ($director = $filmDirector->fetch(PDO::FETCH_ASSOC)) {
+                    $idRealisateur = $director['id_realisateur'];
+                    $prenomRealisateur = $director['prenom'];
+                    $nomRealisateur = $director['nom'];
                     echo "<option value='$idRealisateur'>$prenomRealisateur $nomRealisateur</option>";
             }
             ?>
             </select>
 
-            <label for="id_genre">Genre :</label>
-            <select name="id_genre" id="id_genre[]" multiple required>
+            <!-- Pour que l'array soit bien pris en compte dans la boucle, les symboles [] doivent se trouver devant le name du <select> -->
+            <select name="id_genre[]" id="id_genre" multiple required>
             <?php
             while ($genre = $filmGenres->fetch()) {
                     echo "<option value=".$genre['id_genre'].">".$genre['libelle']."</option>";
