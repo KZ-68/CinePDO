@@ -86,25 +86,36 @@ class GenreController{
 
         $addGenre = $dao->executerRequete($sql, $params);
 
-        require "views/genre/addGenres.php";
+        // Comme la session est déjà démarré dans les autres fichiers, on peut créer un tableau de $_SESSION pour afficher un message
+        $_SESSION['flash_message'] = "Le genre " .$libelle. " à été ajouté avec succès !";
+        // Retourne l'objet en cours et réaffiche la liste des genres 
+        $this->findAllGenres();
     }
 
     public function deleteGenres(){
 
         $dao = new DAO();
 
+        $sql = "SELECT g.id_genre, g.libelle
+                FROM genre g";
+
+        $genre = $dao->executerRequete($sql);
+
         // vérifie si la table de la méthode POST existe
         if (isset($_POST['deleteGenre'])) {
             $idGenre = $_POST['id_genre'];
 
-            $sql = "DELETE FROM genre
+            $sql2 = "DELETE FROM genre
+            WHERE id_genre = :id_genre;
+            
+            DELETE FROM appartenir
             WHERE id_genre = :id_genre";
 
             $params = [
                 ":id_genre" => $idGenre
             ];
 
-            $deleteGenre = $dao->executerRequete($sql, $params);
+            $deleteGenre = $dao->executerRequete($sql2, $params);
 
         }
         require "views/genre/deleteGenres.php";
