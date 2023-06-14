@@ -12,12 +12,7 @@ ob_start();
             <label for="id_personne">Personne :</label>
             <select name="id_personne" id="id_personne" required>
             <?php
-
-                $dao = new DAO();
-                $sql = "SELECT p.id_personne, p.nom, p.prenom
-                        FROM personne p";
-                $result = $dao->executerRequete($sql);
-                
+            
                 // Parcourir les résultats et afficher les options de la liste déroulante
                 while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
                     $idPersonne = $row['id_personne'];
