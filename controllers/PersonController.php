@@ -130,40 +130,21 @@ class PersonController{
         require "views/director/detailDirector.php";
     }
 
-    public function getActorsByRoleId($id) {
-
-        $dao = new DAO();
-
-        $sql = "SELECT
-                    a.id_acteur,
-                    p.photo,
-                    p.prenom,
-                    p.nom
-                FROM acteur a
-                INNER JOIN personne p ON p.id_personne = a.id_personne
-                INNER JOIN casting c ON c.id_acteur = a.id_acteur
-                INNER JOIN role ro ON ro.id_role = c.id_role
-                WHERE ro.id_role = $id;";
-
-        $actors = $dao->executerRequete($sql);
-
-        return $actors;
-    }
-
-    public function addPersons(){
+    public function addPersons($array){
         
         $dao = new DAO();
 
         // vérifie si la table de la méthode POST existe
         if (isset($_POST['addPerson'])) {
-            $photo = $_POST['photo'];
-            $prenom = $_POST['prenom'];
-            $nom = $_POST['nom'];
-            $sexe = $_POST['sexe'];
-            $dateNaissance = $_POST['date_naissance'];
-
+            
         $sql = "INSERT INTO personne (photo, prenom, nom, sexe, date_naissance) 
         VALUES (:photo, :prenom, :nom, :sexe, :date_naissance)";
+
+        $photo = filter_var($array["photo"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);  
+        $prenom = filter_var($array["prenom"], FILTER_SANITIZE_SPECIAL_CHARS);
+        $nom = filter_var($array["nom"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $sexe = filter_var($array["sexe"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);               
+        $dateNaissance = filter_var($array["date_naissance"]);
 
         $params = [
             ":photo" => $photo,
@@ -184,6 +165,10 @@ class PersonController{
         
         $dao = new DAO();
 
+        $sql = "SELECT p.id_personne, p.nom, p.prenom 
+                        FROM personne p";
+        $result = $dao->executerRequete($sql);
+                
         // vérifie si la table de la méthode POST existe
         if (isset($_POST['addDirector'])) {
             $idPersonne = $_POST['id_personne'];
@@ -206,6 +191,10 @@ class PersonController{
         
         $dao = new DAO();
 
+        $sql = "SELECT p.id_personne, p.nom, p.prenom
+                FROM personne p";
+        $result = $dao->executerRequete($sql);
+
         // vérifie si la table de la méthode POST existe
         if (isset($_POST['addActor'])) {
             $idPersonne = $_POST['id_personne'];
@@ -222,6 +211,41 @@ class PersonController{
         }
 
         require "views/actor/addActors.php";
+    }
+
+    public function deleteDirectors($id){
+        
+        $dao = new DAO();
+
+        $sql = "SELECT re.id_realisateur, p.nom, p.prenom 
+        FROM realisateur re
+        INNER JOIN personne p ON re.id_personne = p.id_personne";
+
+        $params = [
+            ":id_realisateur" => $id,
+        ];
+
+        $director = $dao->executerRequete($sql, $params);
+
+        $sql2 = "DELETE FROM realisateur re
+        WHERE re.id_realisateur = :id_realisateur";
+
+        $params2 = [
+            ":id_realisateur" => $id,
+        ];
+
+        $deleteDirector = $dao->executerRequete($sql2, $params2);
+
+        $sql3 = "DELETE FROM film f
+        WHERE re.id_realisateur = :id_realisateur";
+
+        $params3 = [
+            ":id_realisateur" => $id,
+        ];
+
+        $deleteIntoFilm = $dao->executerRequete($sql3, $params3);
+
+        require "views/director/deleteDirectors.php";
     }
 
 
