@@ -7,7 +7,7 @@ ob_start();
 <h2>Liste des films</h2>
 
 
-<?= "<p>{$films->rowcount()}</p>" ?>
+<?= "<p>Nombre de films dans la base de données : {$films->rowcount()}</p>" ?>
 
 <a href='index.php?action=deleteFilms'>
     <h3>Supprimer Film</h3>
