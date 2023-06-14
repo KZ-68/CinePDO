@@ -146,8 +146,8 @@ class MovieController {
 
         $filmDirector = $dao->executerRequete($sql);
 
-        $sql2 = "SELECT id_genre, g.libelle
-                FROM genre g";            
+        $sql2 = "SELECT g.id_genre, g.libelle
+                FROM genre g";              
             
         $filmGenres = $dao->executerRequete($sql2);
 
@@ -235,24 +235,40 @@ class MovieController {
         require "views/movie/modifyFilms.php";
     }
 
-    public function deleteFilms(){
+    public function deleteFilms() {
 
         $dao = new DAO();
+
+        $sql = "SELECT f.id_film, f.titre, f.date_sortie_france, f.duree, f.synopsis, f.note, affiche_film, f.id_realisateur
+                FROM film f";
+
+        $films = $dao->executerRequete($sql);
 
         // vérifie si la table de la méthode POST existe
         if (isset($_POST['deleteFilm'])) {
             $idFilm = $_POST['id_film'];
 
-            $sql = "DELETE FROM film
-            WHERE id_film = :id_film";
+            $sql2 = "SET FOREIGN_KEY_CHECKS=0;
+            
+            DELETE FROM film f
+            WHERE f.id_film = :id_film;
+            
+            DELETE FROM casting c
+            WHERE c.id_film = :id_film;
+            
+            DELETE FROM appartenir ap
+            WHERE ap.id_film = :id_film;
+
+            SET FOREIGN_KEY_CHECKS=1;";
 
             $params = [
-                ":id_film" => $idFilm
+                ":id_film" => $idFilm 
             ];
 
-            $deleteFilm = $dao->executerRequete($sql, $params);
-
+            $delete = $dao->executerRequete($sql2, $params);
         }
+        
+
         require "views/movie/deleteFilms.php";
     }
 
