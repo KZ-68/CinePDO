@@ -8,9 +8,9 @@ ob_start();
 <h2 id='h2_addPersons'>Ajout Personne</h2>
 
     <div class="addPersons_wrapper">
-        <form class='formular_base' action="" method="post">
+        <form class='formular_base' action="index.php?action=addPersons" method="post">
             
-            <label for="photo">Affiche :</label>
+            <label for="photo">Photo :</label>
             <input type="file" name="photo" id="photo">
         
             <div class="prenom">
@@ -31,7 +31,7 @@ ob_start();
                 <input type="date" id="date_naissance" name="date_naissance" value="date_naissance" required>
             </div>
 
-            <input id="submit" type="submit" name="addPerson" value="Ajouter">
+            <input id="submit" type="submit" name="addPersons" value="Ajouter">
         </form>
     </div>
 
