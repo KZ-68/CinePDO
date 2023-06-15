@@ -30,6 +30,7 @@ if(isset($_GET['action'])) {
     switch($_GET['action']) {
         // listes
         case "listFilms": $filmCtrl->findAllFilms(); break;
+        case "listPersons": $personCtrl->findAllPersons(); break;
         case "listActors": $personCtrl->findAllActors(); break;
         case "listDirectors": $personCtrl->findAllDirectors(); break;
         case "listGenres": $genreCtrl->findAllGenres(); break;
@@ -43,6 +44,8 @@ if(isset($_GET['action'])) {
         // formulaire
         case "filmsForm": $filmCtrl->openFilmsForm(); break;
         case "genresForm": $genreCtrl->openGenresForm(); break;
+        case "rolesForm": $roleCtrl->openRolesForm(); break;
+        case "personsForm": $personCtrl->openPersonsForm(); break;
         // add
         case "addGenres": $genreCtrl->addGenres(); break;
         case "addFilms": $filmCtrl->addFilms($_POST); break;
@@ -52,10 +55,13 @@ if(isset($_GET['action'])) {
         case "addRoles": $roleCtrl->addRoles(); break;
         // modify
         case "modifyFilms": $filmCtrl->modifyFilms($id, $id2); break;
+        case "editRoles": $roleCtrl->editRoles($_POST); break;
         // delete
-        case "deleteFilms": $filmCtrl->deleteFilms($id); break;
+        case "deleteFilms": $filmCtrl->deleteFilms(); break;
         case "deleteGenres": $genreCtrl->deleteGenres(); break;
-        case "deleteDirectors": $personCtrl->deleteDirectors($id); break;
+        case "deleteActors": $personCtrl->deleteActors(); break;
+        case "deleteDirectors": $personCtrl->deleteDirectors(); break;
+        case "deleteRoles": $roleCtrl->deleteRoles(); break;
         // défaut
         default:
             $homeCtrl->homePage();
