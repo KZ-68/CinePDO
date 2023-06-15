@@ -65,11 +65,7 @@ class MovieController {
                 INNER JOIN film f ON f.id_film = ap.id_film
                 WHERE f.id_film = :id_film ";
 
-            $params2 = [
-                ":id_film" => $id
-            ];
-
-        $genreFilm = $dao->executerRequete($sql2, $params2);
+        $genreFilm = $dao->executerRequete($sql2, $params);
 
 
         $sql3 = "SELECT 
@@ -86,11 +82,7 @@ class MovieController {
             INNER JOIN role r ON r.id_role = c.id_role
             WHERE c.id_film = :id_film";
 
-        $params3 = [
-            ":id_film" => $id 
-        ];
-
-        $actorsFilm = $dao->executerRequete($sql3, $params3);
+        $actorsFilm = $dao->executerRequete($sql3, $params);
 
         $sql4 = "SELECT
                 f.id_film,
@@ -101,12 +93,8 @@ class MovieController {
             INNER JOIN realisateur re ON re.id_realisateur = f.id_realisateur
             INNER JOIN personne p ON p.id_personne = re.id_personne
             WHERE f.id_film = :id_film";
-        
-            $params4 = [ 
-                ":id_film" => $id
-            ];
 
-        $directorFilm = $dao->executerRequete($sql4, $params4);
+        $directorFilm = $dao->executerRequete($sql4, $params);
 
         require "views/movie/detailFilm.php";
     }
@@ -190,24 +178,32 @@ class MovieController {
         $this->findAllFilms();
     }
 
-    public function modifyFilms($idFilm, $idGenre){
+    public function addCasting() {
+
+        $dao = new DAO();
+
+        $sql = "SELECT
+                    c.id_film,
+                    f.titre
+                FROM 
+                    casting c
+                INNER JOIN film f ON f.id_film = c.id_film";
+
+    }
+
+    public function modifyFilms($id, $array){
         
         $dao = new DAO();
 
+        $dao = new DAO();
+        $sql = "SELECT f.id_film
+        FROM film f";
+        $result = $dao->executerRequete($sql);
+
         // vérifie si la table de la méthode POST existe
         if (isset($_POST['modifyFilm'])) {
-            $idFilm = $idFilm;
-            $titre = $_POST['titre'];
-            $date = $_POST['date_sortie_france'];
-            $duree = $_POST['duree'];
-            $idGenre = $_POST['id_genre'];
-            $synopsis = $_POST['synopsis'];
-            $note = $_POST['note'];
-            $affiche_film = $_POST['affiche_film'];
-            $idRealisateur = $_POST['id_realisateur'];
-
-        $sql = "UPDATE film SET
-        id_film = :id_film,
+            
+        $sql2 = "UPDATE film SET
         titre = :titre, 
         date_sortie_france = :date_sortie_france, 
         duree = :duree, 
@@ -215,11 +211,17 @@ class MovieController {
         note = :note, 
         affiche_film = :affiche_film,  
         id_realisateur = :id_realisateur
-        WHERE id_film = :id_film";
+        WHERE id_film = $id";
 
+        $titre = filter_var($array['titre'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $date = filter_var($array['date_sortie_france']);
+        $duree = filter_var($array['duree'], FILTER_SANITIZE_NUMBER_INT);
+        $synopsis = filter_var($array['synopsis'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $note = filter_var($array['note'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+        $affiche_film = filter_var($array['affiche_film'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $idRealisateur = filter_var($array['id_realisateur'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
         $params = [
-            ":id_film" => $idFilm,
             ":titre" => $titre,
             ":date_sortie_france" => $date,
             ":duree" => $duree,
@@ -229,7 +231,7 @@ class MovieController {
             ":id_realisateur" => $idRealisateur
             ];
         
-        $modifyFilm = $dao->executerRequete($sql, $params);
+        $modifyFilm = $dao->executerRequete($sql2, $params);     
 
         }
         require "views/movie/modifyFilms.php";
