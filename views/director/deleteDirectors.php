@@ -9,10 +9,11 @@ ob_start();
     <select name="id_realisateur" id="id_realisateur" required>
     <?php
         // Parcourir les résultats et afficher les options de la liste déroulante
-        while ($row = $genre->fetch(PDO::FETCH_ASSOC)) {
+        while ($row = $director->fetch(PDO::FETCH_ASSOC)) {
             $idRealisateur = $row['id_realisateur'];
-            $libelle = $row['libelle'];
-            echo "<option value='$idRealisateur'>$libelle</option>";
+            $prenomRealisateur = $row['prenom'];
+            $nomRealisateur = $row['nom'];
+            echo "<option value='$idRealisateur'>$prenomRealisateur $nomRealisateur</option>";
         }
         ?>
     </select>
@@ -22,7 +23,7 @@ ob_start();
 
 <?php
 
-$title = "Supprimer un genre";
+$title = "Supprimer un Réalisateur";
 $content = ob_get_clean();
 require "views/template.php";
 ?>
