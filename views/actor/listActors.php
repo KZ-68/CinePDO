@@ -8,6 +8,10 @@ ob_start();
 
 <?= "<p>Nombre d'acteurs dans la base de données : {$actors->rowcount()}</p>" ?>
 
+<a href='index.php?action=deleteActors'>
+<h3>Supprimer Acteur</h3>
+</a>
+
 <a class='addActors_link' href='index.php?action=addActors'>
     <p class='addActors_btn'>Ajouter Acteurs
     <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-plus-square' viewBox='0 0 16 16'>

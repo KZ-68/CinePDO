@@ -7,6 +7,12 @@ ob_start();
 
 if ($role = $role->fetch()) {
 
+?>
+    <a href='index.php?action=editRoles&id=<?=$role['id_role']?>'>
+    <h3>Editer Role</h3>
+    </a>
+<?php
+
     echo "<div class='card_website'>
     <p>Nom du role joué : {$role["nom_role"]}\n
     </div>";
