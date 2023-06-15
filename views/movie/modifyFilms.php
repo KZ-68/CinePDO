@@ -15,7 +15,7 @@ ob_start();
             </div>
             <div class="date_sortie">
                 <label for="date_sortie_france">Date de sortie en France :</label>
-                <input type="text" name="date_sortie_france" id="date_sortie_france" required>
+                <input type="date" name="date_sortie_france" id="date_sortie_france" required>
             </div>
             <div class="duree">
                 <label for="duree">Durée :</label>
@@ -54,11 +54,6 @@ ob_start();
             <textarea name="synopsis" id="synopsis" rows="4" required></textarea>
 
             <?php
-            $dao = new DAO();
-            $sql = "SELECT f.id_film
-            FROM film f";
-            $result = $dao->executerRequete($sql);
-
             while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
             $idFilm = $row['id_film'];
             echo "<input type='hidden' name='id' value='$idFilm'>";
