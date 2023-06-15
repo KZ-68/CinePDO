@@ -116,32 +116,27 @@ class RoleController{
         $this->findAllRoles();
     }
 
-    public function editRoles($array) {
+    public function editRoles($id) {
+        
         $dao = new DAO();
 
-        $sql = "SELECT
-                    c.id_acteur,
-                    p.prenom,
-                    p.nom
-                FROM casting c
-                INNER JOIN acteur a ON a.id_acteur = c.id_acteur
-                INNER JOIN personne p ON p.id_personne = a.id_personne";
+
+        if (isset($_POST['editRole'])) {
+        $sql = "UPDATE role SET 
+                    nom_role = :nom_role
+                WHERE id_role = $id";
         
-        $castingActor = $dao->executerRequete($sql);
-
-        $sql2 ="UPDATE role SET 
-                    id_role = :id_role, 
-                    nom_role = :nom_role";
-
-            $idRole = filter_var($array['id_role'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $nomRole = filter_var($array['nom_role'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $nomRole = filter_input(INPUT_POST, 'nom_role', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
             $params = [
-                ":id_role" => $idRole,
                 ":nom_role" => $nomRole
             ];
 
-        $editRole = $dao->executerRequete($sql2, $params);
+        $editRole = $dao->executerRequete($sql, $params);
+
+        } 
+
+        require  "views/role/editRoles.php";
     }
 
     public function deleteRoles() {
@@ -170,7 +165,6 @@ class RoleController{
             $delete = $dao->executerRequete($sql2, $params);
         }
         
-
         require "views/role/deleteRoles.php";
     }
 }
