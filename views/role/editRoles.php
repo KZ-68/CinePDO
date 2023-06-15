@@ -13,23 +13,8 @@ ob_start();
                 <label for="nom_role">Nom du role:</label>
                 <input type="text" name="nom_role" id="nom_role" required>
             </div>
-            
-            <div class="acteur">
-            <label for="id_acteur">Acteur :</label>
-            <select name="id_acteur" id="id_acteur" required>
-            <?php
-                // Parcourir les résultats et afficher les options de la liste déroulante
-                while ($row = $castingActor->fetch(PDO::FETCH_ASSOC)) {
-                    $idActeur = $row['id_acteur'];
-                    $prenomActeur = $row['prenom'];
-                    $nomActeur = $row['nom'];
-                    echo "<option value='$idActeur'>$prenomActeur $nomActeur</option>";
-                }
-                ?>
-            </select>
-            </div>
 
-            <input id="submit" type="submit" name="editRole" value="Editer">
+            <input id="submit" type="submit" name="editRoleCasting" value="Editer">
         </form>
     </div>
 
