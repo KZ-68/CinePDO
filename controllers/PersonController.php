@@ -130,12 +130,51 @@ class PersonController{
         require "views/director/detailDirector.php";
     }
 
-    public function addPersons($array){
+    public function findAllPersons()  {
+
+        $dao = new DAO();
+
+        $sql = "SELECT
+                    a.id_acteur,
+                    p.id_personne,
+                    p.photo,
+                    p.prenom,
+                    p.nom,
+                    p.sexe,
+                    p.date_naissance
+                FROM
+                    personne p
+                INNER JOIN acteur a ON a.id_personne = p.id_personne";
+
+        $personActors = $dao->executerRequete($sql);
+
+        $sql2 = "SELECT
+                    re.id_realisateur,
+                    p.id_personne,
+                    p.photo,
+                    p.prenom,
+                    p.nom,
+                    p.sexe,
+                    p.date_naissance
+                FROM
+                    personne p
+                INNER JOIN realisateur re ON re.id_personne = p.id_personne";
+        
+        $personDirectors = $dao->executerRequete($sql2);
+
+        require "views/person/listPersons.php";
+    }
+
+    public function openPersonsForm() {
         
         $dao = new DAO();
 
-        // vérifie si la table de la méthode POST existe
-        if (isset($_POST['addPerson'])) {
+        require "views/person/personsForm.php";
+    }
+
+    public function addPersons($array){
+        
+        $dao = new DAO();
             
         $sql = "INSERT INTO personne (photo, prenom, nom, sexe, date_naissance) 
         VALUES (:photo, :prenom, :nom, :sexe, :date_naissance)";
@@ -156,9 +195,11 @@ class PersonController{
 
         $addPerson = $dao->executerRequete($sql, $params);
 
-        }
+        // Comme la session est déjà démarré dans les autres fichiers, on peut créer un tableau de $_SESSION pour afficher un message
+        $_SESSION['flash_message'] = "".$prenom." ".$nom." à été ajouté avec succès !";
+        // Retourne l'objet en cours et réaffiche la liste des films 
+        $this->findAllPersons();
 
-        require "views/person/addPersons.php";
     }
 
     public function addDirectors(){
@@ -213,7 +254,7 @@ class PersonController{
         require "views/actor/addActors.php";
     }
 
-    public function deleteDirectors($id){
+    public function deleteDirectors(){
         
         $dao = new DAO();
 
@@ -221,34 +262,57 @@ class PersonController{
         FROM realisateur re
         INNER JOIN personne p ON re.id_personne = p.id_personne";
 
-        $params = [
-            ":id_realisateur" => $id,
-        ];
+        $director = $dao->executerRequete($sql);
 
-        $director = $dao->executerRequete($sql, $params);
+        if (isset($_POST['deleteDirector'])) {
+            $idDirector = $_POST['id_realisateur'];
 
-        $sql2 = "DELETE FROM realisateur re
-        WHERE re.id_realisateur = :id_realisateur";
+        $sql2 ="DELETE FROM realisateur re
+                WHERE re.id_realisateur = :id_realisateur;
+        
+                DELETE FROM film f
+                WHERE f.id_realisateur = :id_realisateur";
 
         $params2 = [
-            ":id_realisateur" => $id,
+            ":id_realisateur" => $idDirector
         ];
 
         $deleteDirector = $dao->executerRequete($sql2, $params2);
 
-        $sql3 = "DELETE FROM film f
-        WHERE re.id_realisateur = :id_realisateur";
-
-        $params3 = [
-            ":id_realisateur" => $id,
-        ];
-
-        $deleteIntoFilm = $dao->executerRequete($sql3, $params3);
+        }
 
         require "views/director/deleteDirectors.php";
     }
 
+    public function deleteActors(){
+        
+        $dao = new DAO();
 
+        $sql = "SELECT a.id_acteur, p.nom, p.prenom 
+                FROM acteur a
+                INNER JOIN personne p ON a.id_personne = p.id_personne";
+
+        $actor = $dao->executerRequete($sql);
+
+        if (isset($_POST['deleteActor'])) {
+            $idActor = $_POST['id_acteur'];
+
+        $sql2 ="DELETE FROM acteur a
+                WHERE a.id_acteur = :id_acteur;
+        
+                DELETE FROM casting c
+                WHERE c.id_acteur = :id_acteur";
+
+        $params2 = [
+            ":id_acteur" => $idActor
+        ];
+
+        $deleteActor = $dao->executerRequete($sql2, $params2);
+
+        }
+
+        require "views/actor/deleteActors.php";
+    }
 }
 
 ?>
