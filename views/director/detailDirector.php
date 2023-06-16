@@ -7,6 +7,9 @@ ob_start();
 if ($director = $director->fetch()) {
 
     echo "<div class='card_website'>
+    <a href='index.php?action=editActors&id={$director['id_personne']}'>
+    <h3>Modifier ce réalisateur</h3>
+    </a></p>
     <img class='photoPerson' src='public/image/{$director["photo"]}'<br/>
         <p>Prénom et Nom de l'acteur : {$director["prenom"]} {$director["nom"]}<br/>
         Sexe : {$director["sexe"]}<br/>

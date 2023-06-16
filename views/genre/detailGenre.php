@@ -8,6 +8,9 @@ ob_start();
 if ($genre = $genre->fetch()) {
 
     echo "<div class='card_website'>
+    <a href='index.php?action=editGenres&id={$genre['id_genre']}'>
+    <h3>Modifier ce Genre</h3>
+    </a></p>
     {$genre["id_genre"]}
     <p>Libellé du genre : {$genre["libelle"]}\n
     </div>";
