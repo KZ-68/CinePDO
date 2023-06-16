@@ -9,23 +9,25 @@ ob_start();
 
     <div class="addCastings_wrapper">
     
-    <form action ='' method='post'>
+    <form class='formular_base' action ='' method='post'>
 
     <select name = "id_acteur" id="id_acteur" required>
 
         <option value = "" selected>Nom acteur</option> 
 
-        <?php while ($acteur = $actorCasting->fetch()){ 
+        <?php 
+        while ($acteur = $actorCasting->fetch()){ 
         
             echo "<option value = ".$acteur['id_acteur'].">".$acteur['prenom']." ".$acteur['nom']."</option>";
 
-        }?>  
+        }
+        ?>  
 
     </select>
 
     <select name = "id_role" id="id_role" required>
         
-    <option value = "" selected>Nom acteur</option> 
+    <option value = "" selected>Nom du role</option> 
 
         <?php while ($role = $roleCasting->fetch()){ 
 
