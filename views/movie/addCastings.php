@@ -17,22 +17,23 @@ ob_start();
 
         <?php while ($acteur = $actorCasting->fetch()){ 
         
-            echo "<option value = ".$acteur['id_acteur'].">".$acteur['prenom']." ".$acteur['nom']."</option>"; // La value récup l'id real.
+            echo "<option value = ".$acteur['id_acteur'].">".$acteur['prenom']." ".$acteur['nom']."</option>";
 
         }?>  
 
     </select>
 
-    <fieldset>
-        <input type='checkbox' name='id_role[]' value="<?=$role['nom_role']?>" checked> 
+    <select name = "id_role" id="id_role" required>
+        
+    <option value = "" selected>Nom acteur</option> 
+
         <?php while ($role = $roleCasting->fetch()){ 
 
-            echo "     
-            <label for=".$role['id_role'].">".$role['nom_role']."</label>";
+            echo "<option value = ".$role['id_role'].">".$role['nom_role']." ".$role['nom']."</option>";
 
         }?>       
 
-    </fieldset>
+    </select>
 
             <input id="submit" type="submit" name="addCasting" value="Ajouter">
         </form>
