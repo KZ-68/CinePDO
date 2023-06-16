@@ -178,7 +178,7 @@ class MovieController {
         $this->findAllFilms();
     }
 
-    public function addCastings($id, $array) {
+    public function addCastings($id) {
 
         $dao = new DAO();
 
@@ -214,34 +214,16 @@ class MovieController {
             $sql4 = "INSERT INTO casting (id_film, id_acteur, id_role)
             VALUES (:id_film, :id_acteur, :id_role)"; 
     
-            $idActor = filter_var_array($array['id_acteur'], FILTER_SANITIZE_FULL_SPECIAL_CHARS, $add_empty = true);
-            $idRole = filter_var_array($array['id_role'], FILTER_SANITIZE_FULL_SPECIAL_CHARS, $add_empty = true);
-
-            foreach ($idActor as $id_actor) {
+            $idActor = filter_input(INPUT_POST, 'id_acteur', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $idRole = filter_input(INPUT_POST, 'id_role', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
                 
                 $params = [
-                    ":id_acteur" => $id_actor
+                    ":id_film" => $id,
+                    ":id_acteur" => $idActor,
+                    ":id_role" => $idRole
                 ];
 
-                $multipleActors = $dao->executerRequete($sql4, $params);
-
-            }
-
-            foreach ($idRole as $id_role) {
-                
-                $params2 = [
-                    ":id_role" => $id_role
-                ];
-
-             $multipleRoles = $dao->executerRequete($sql4, $params2);
-
-            }
-
-            $params3 = [
-                ":id_film" => $id
-            ];
-
-            $castingIdFilm = $dao->executerRequete($sql4, $params3);
+                $dao->executerRequete($sql4, $params);
 
         }
 
