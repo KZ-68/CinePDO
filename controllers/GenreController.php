@@ -92,6 +92,28 @@ class GenreController{
         $this->findAllGenres();
     }
 
+    public function editGenres($id) {
+        
+        $dao = new DAO();
+
+        if (isset($_POST['editGenre'])) {
+        $sql = "UPDATE genre SET 
+                    libelle = :libelle
+                WHERE id_genre = $id";
+        
+            $libelle = filter_input(INPUT_POST, 'libelle', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+            $params = [
+                ":libelle" => $libelle
+            ];
+
+        $editRole = $dao->executerRequete($sql, $params);
+
+        } 
+
+        require  "views/genre/editGenres.php";
+    }
+
     public function deleteGenres(){
 
         $dao = new DAO();
