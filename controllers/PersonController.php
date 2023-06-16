@@ -2,7 +2,7 @@
 
 require_once "bdd/DAO.php";
 
-class PersonController{
+class PersonController {
     
     public function findAllActors()  {
 
@@ -30,6 +30,8 @@ class PersonController{
         $dao = new DAO();
 
         $sql = "SELECT
+                    a.id_acteur,
+                    a.id_personne,
                     p.photo,
                     p.prenom,
                     p.nom,
@@ -37,9 +39,9 @@ class PersonController{
                     p.date_naissance
                 FROM
                     casting c
-                INNER JOIN acteur ac ON ac.id_acteur = c.id_acteur
-                INNER JOIN personne p ON p.id_personne = ac.id_personne
-                WHERE ac.id_acteur = :id_acteur";
+                INNER JOIN acteur a ON a.id_acteur = c.id_acteur
+                INNER JOIN personne p ON p.id_personne = a.id_personne
+                WHERE a.id_acteur = :id_acteur";
 
             $params = [
                 ":id_acteur" => $id
@@ -94,6 +96,7 @@ class PersonController{
 
         $sql = "SELECT
                     re.id_realisateur,
+                    p.id_personne,
                     p.photo,
                     p.prenom,
                     p.nom,
@@ -228,6 +231,42 @@ class PersonController{
         require "views/director/addDirectors.php";
     }
 
+    public function editDirectors($id){
+        
+        $dao = new DAO();
+
+        // vérifie si la table de la méthode POST existe
+        if (isset($_POST['editDirector'])) {
+
+        $sql2 = "UPDATE personne SET
+                photo = :photo,
+                prenom = :prenom,
+                nom = :nom,
+                sexe = :sexe,
+                date_naissance = :date_naissance
+                WHERE id_personne = $id";
+
+                $photo = filter_input(INPUT_POST, 'photo', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                $prenom = filter_input(INPUT_POST, 'prenom', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                $nom = filter_input(INPUT_POST, 'nom', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                $sexe = filter_input(INPUT_POST, 'sexe', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                $date_naissance = filter_input(INPUT_POST, 'date_naissance');
+
+        $params = [
+            ":photo" => $photo,
+            ":prenom" => $prenom,
+            ":nom" => $nom,
+            ":sexe" => $sexe,
+            ":date_naissance" => $date_naissance
+            ];
+
+        $editPerson = $dao->executerRequete($sql2, $params);
+
+        }
+
+        require "views/director/editDirectors.php";
+    }
+
     public function addActors(){
         
         $dao = new DAO();
@@ -261,14 +300,13 @@ class PersonController{
         // vérifie si la table de la méthode POST existe
         if (isset($_POST['editActor'])) {
 
-        $sql = "UPDATE personne SET
+        $sql2 = "UPDATE personne SET
                 photo = :photo,
                 prenom = :prenom,
                 nom = :nom,
                 sexe = :sexe,
                 date_naissance = :date_naissance
-                INNER JOIN acteur a ON a.id_personne = p.id_personne
-                WHERE a.id_acteur = $id";
+                WHERE id_personne = $id";
 
                 $photo = filter_input(INPUT_POST, 'photo', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
                 $prenom = filter_input(INPUT_POST, 'prenom', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -284,7 +322,7 @@ class PersonController{
             ":date_naissance" => $date_naissance
             ];
 
-        $editPerson = $dao->executerRequete($sql, $params);
+        $editPerson = $dao->executerRequete($sql2, $params);
 
         }
 
