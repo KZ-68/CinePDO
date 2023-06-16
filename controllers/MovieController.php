@@ -178,17 +178,75 @@ class MovieController {
         $this->findAllFilms();
     }
 
-    public function addCasting() {
+    public function addCastings($id, $array) {
 
         $dao = new DAO();
 
         $sql = "SELECT
-                    c.id_film,
+                    f.id_film,
                     f.titre
                 FROM 
-                    casting c
-                INNER JOIN film f ON f.id_film = c.id_film";
+                    film f
+                WHERE f.id_film = $id";
 
+        $filmCasting = $dao->executerRequete($sql);
+        
+        $sql2 = "SELECT
+                    a.id_acteur,
+                    p.prenom,
+                    p.nom
+                FROM 
+                    acteur a
+                INNER JOIN personne p ON p.id_personne = a.id_personne";
+
+        $actorCasting = $dao->executerRequete($sql2);        
+
+        $sql3 = "SELECT
+                    ro.id_role,
+                    ro.nom_role
+                FROM 
+                    role ro";
+
+        $roleCasting = $dao->executerRequete($sql3);    
+
+        if (isset($_POST['addCasting'])) {
+
+            $sql4 = "INSERT INTO casting (id_film, id_acteur, id_role)
+            VALUES (:id_film, :id_acteur, :id_role)"; 
+    
+            $idActor = filter_var_array($array['id_acteur'], FILTER_SANITIZE_FULL_SPECIAL_CHARS, $add_empty = true);
+            $idRole = filter_var_array($array['id_role'], FILTER_SANITIZE_FULL_SPECIAL_CHARS, $add_empty = true);
+
+            foreach ($idActor as $id_actor) {
+                
+                $params = [
+                    ":id_acteur" => $id_actor
+                ];
+
+                $multipleActors = $dao->executerRequete($sql4, $params);
+
+            }
+
+            foreach ($idRole as $id_role) {
+                
+                $params2 = [
+                    ":id_role" => $id_role
+                ];
+
+             $multipleRoles = $dao->executerRequete($sql4, $params2);
+
+            }
+
+            $params3 = [
+                ":id_film" => $id
+            ];
+
+            $castingIdFilm = $dao->executerRequete($sql4, $params3);
+
+        }
+
+        require "views/movie/addCastings.php";
+        
     }
 
     public function modifyFilms($id, $array){
