@@ -216,7 +216,9 @@ class MovieController {
     
             $idActor = filter_input(INPUT_POST, 'id_acteur', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $idRole = filter_input(INPUT_POST, 'id_role', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-                
+            
+            /* On ajoute tous les paramètres en une fois car on souhaite ajouter un casting pour UN film précis, 
+            par le biais de son id, et un acteur aura un seul role */
                 $params = [
                     ":id_film" => $id,
                     ":id_acteur" => $idActor,
@@ -231,7 +233,7 @@ class MovieController {
         
     }
 
-    public function modifyFilms($id, $array){
+    public function updateFilms($id, $array){
         
         $dao = new DAO();
 
@@ -241,7 +243,7 @@ class MovieController {
         $result = $dao->executerRequete($sql);
 
         // vérifie si la table de la méthode POST existe
-        if (isset($_POST['modifyFilm'])) {
+        if (isset($_POST['updateFilm'])) {
             
         $sql2 = "UPDATE film SET
         titre = :titre, 
@@ -274,7 +276,7 @@ class MovieController {
         $modifyFilm = $dao->executerRequete($sql2, $params);     
 
         }
-        require "views/movie/modifyFilms.php";
+        require "views/movie/updateFilms.php";
     }
 
     public function deleteFilms() {
