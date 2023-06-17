@@ -231,12 +231,12 @@ class PersonController {
         require "views/director/addDirectors.php";
     }
 
-    public function editDirectors($id){
+    public function updateDirectors($id){
         
         $dao = new DAO();
 
         // vérifie si la table de la méthode POST existe
-        if (isset($_POST['editDirector'])) {
+        if (isset($_POST['updateDirector'])) {
 
         $sql2 = "UPDATE personne SET
                 photo = :photo,
@@ -264,7 +264,7 @@ class PersonController {
 
         }
 
-        require "views/director/editDirectors.php";
+        require "views/director/updateDirectors.php";
     }
 
     public function addActors(){
@@ -293,12 +293,12 @@ class PersonController {
         require "views/actor/addActors.php";
     }
 
-    public function editActors($id){
+    public function updateActors($id){
         
         $dao = new DAO();
 
         // vérifie si la table de la méthode POST existe
-        if (isset($_POST['editActor'])) {
+        if (isset($_POST['updateActor'])) {
 
         $sql2 = "UPDATE personne SET
                 photo = :photo,
@@ -326,7 +326,7 @@ class PersonController {
 
         }
 
-        require "views/actor/editActors.php";
+        require "views/actor/updateActors.php";
     }
 
     public function deleteDirectors(){

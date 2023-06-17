@@ -8,7 +8,7 @@ if ($film = $film->fetch()) {
 
     echo "<div class='card_website'>
     <p>Titre du Film : {$film["titre"]}
-    <a href='index.php?action=modifyFilms&id={$film['id_film']}'>
+    <a href='index.php?action=updateFilms&id={$film['id_film']}'>
     <h3>Modifier ce Film</h3>
     </a></p>
     <img class='posterMovie' src='./public/image/{$film['affiche_film']}'>

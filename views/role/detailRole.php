@@ -8,7 +8,7 @@ ob_start();
 if ($role = $role->fetch()) {
 
 ?>
-    <a href='index.php?action=editRoles&id=<?=$role['id_role']?>'>
+    <a href='index.php?action=updateRoles&id=<?=$role['id_role']?>'>
     <h3>Editer Role</h3>
     </a>
 <?php

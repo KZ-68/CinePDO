@@ -3,11 +3,11 @@ ob_start();
 // démarre la temporisation de sortie
 ?>
 
-<section class="section_editActors">
+<section class="section_updateDirectors">
 
-<h2 id='h2_editActors'>Editer Acteur</h2>
+<h2 id='h2_updateDirectors'>Editer Réalisateur</h2>
 
-    <div class="editActors_wrapper">
+    <div class="updateDirectors_wrapper">
         <form class='formular_base' action="" method="post">
             
             <label for="photo">Photo :</label>
@@ -31,7 +31,7 @@ ob_start();
                 <input type="date" id="date_naissance" name="date_naissance" value="date_naissance" required>
             </div>
 
-            <input id="submit" type="submit" name="editActor" value="Editer">
+            <input id="submit" type="submit" name="updateDirector" value="Editer">
         </form>
     </div>
 

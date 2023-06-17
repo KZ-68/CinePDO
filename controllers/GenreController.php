@@ -92,11 +92,11 @@ class GenreController{
         $this->findAllGenres();
     }
 
-    public function editGenres($id) {
+    public function updateGenres($id) {
         
         $dao = new DAO();
 
-        if (isset($_POST['editGenre'])) {
+        if (isset($_POST['updateGenre'])) {
         $sql = "UPDATE genre SET 
                     libelle = :libelle
                 WHERE id_genre = $id";
@@ -111,7 +111,7 @@ class GenreController{
 
         } 
 
-        require  "views/genre/editGenres.php";
+        require  "views/genre/updateGenres.php";
     }
 
     public function deleteGenres(){

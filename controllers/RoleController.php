@@ -116,12 +116,12 @@ class RoleController{
         $this->findAllRoles();
     }
 
-    public function editRoles($id) {
+    public function updateRoles($id) {
         
         $dao = new DAO();
 
 
-        if (isset($_POST['editRole'])) {
+        if (isset($_POST['updateRole'])) {
         $sql = "UPDATE role SET 
                     nom_role = :nom_role
                 WHERE id_role = $id";
@@ -136,7 +136,7 @@ class RoleController{
 
         } 
 
-        require  "views/role/editRoles.php";
+        require  "views/role/updateRoles.php";
     }
 
     public function deleteRoles() {

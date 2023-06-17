@@ -3,11 +3,11 @@ ob_start();
 // démarre la temporisation de sortie
 ?>
 
-<section class="section_modifyFilms">
+<section class="section_updateFilms">
 
-<h2 id='h2_modifyFilms'>Modifier un Film</h2>
+<h2 id='h2_updateFilms'>Modifier un Film</h2>
 
-    <div class="modifyFilms_wrapper">
+    <div class="updateFilms_wrapper">
         <form class='formular_base' action="" method="post">
             <div class="titre">
                 <label for="titre">Titre :</label>
@@ -60,7 +60,7 @@ ob_start();
             }
             ?>
 
-            <input id="submit" type="submit" name="modifyFilm" value="Ajouter">
+            <input id="submit" type="submit" name="updateFilm" value="Ajouter">
         </form>
     </div>
 
