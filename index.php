@@ -62,6 +62,7 @@ if(isset($_GET['action'])) {
         case "updateGenres": $genreCtrl->updateGenres($id); break;
         // delete
         case "deleteFilms": $filmCtrl->deleteFilms(); break;
+        case "deleteCastings": $filmCtrl->deleteCastings($id); break;
         case "deleteGenres": $genreCtrl->deleteGenres(); break;
         case "deleteActors": $personCtrl->deleteActors(); break;
         case "deleteDirectors": $personCtrl->deleteDirectors(); break;
