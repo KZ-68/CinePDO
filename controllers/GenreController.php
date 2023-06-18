@@ -84,7 +84,7 @@ class GenreController{
             "libelle" => $libelle
             ];
 
-        $addGenre = $dao->executerRequete($sql, $params);
+        $dao->executerRequete($sql, $params);
 
         // Comme la session est déjà démarré dans les autres fichiers, on peut créer un tableau de $_SESSION pour afficher un message
         $_SESSION['flash_message'] = "Le genre " .$libelle. " à été ajouté avec succès !";
@@ -107,7 +107,7 @@ class GenreController{
                 ":libelle" => $libelle
             ];
 
-        $editRole = $dao->executerRequete($sql, $params);
+        $dao->executerRequete($sql, $params);
 
         } 
 
@@ -137,7 +137,7 @@ class GenreController{
                 ":id_genre" => $idGenre
             ];
 
-            $deleteGenre = $dao->executerRequete($sql2, $params);
+            $dao->executerRequete($sql2, $params);
 
         }
         require "views/genre/deleteGenres.php";

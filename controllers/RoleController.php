@@ -108,7 +108,7 @@ class RoleController{
             ":nom_role" => $nomRole
             ];
 
-        $addRole = $dao->executerRequete($sql, $params);
+        $dao->executerRequete($sql, $params);
 
         // Comme la session est déjà démarré dans les autres fichiers, on peut créer un tableau de $_SESSION pour afficher un message
         $_SESSION['flash_message'] = "Le rôle de " .$nomRole. " à été ajouté avec succès !";
@@ -132,7 +132,7 @@ class RoleController{
                 ":nom_role" => $nomRole
             ];
 
-        $editRole = $dao->executerRequete($sql, $params);
+        $dao->executerRequete($sql, $params);
 
         } 
 
@@ -162,7 +162,7 @@ class RoleController{
                 ":id_role" => $idRole 
             ];
 
-            $delete = $dao->executerRequete($sql2, $params);
+            $dao->executerRequete($sql2, $params);
         }
         
         require "views/role/deleteRoles.php";

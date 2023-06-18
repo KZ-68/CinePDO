@@ -34,6 +34,7 @@ class MovieController {
     }
 
     public function findOneFilm($id) {
+    // On met l'id de la table en argumant pour l'utiliser dans l'index 
 
         $dao = new DAO();
 
@@ -158,7 +159,7 @@ class MovieController {
         $idGenres = filter_var_array($array['id_genre'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $affiche_film = filter_input(INPUT_POST, "affiche_film", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-        $addFilms = $dao->executerRequete($sql, ['titre' => $titre, 'date_sortie_france' => $date_sortie, 'duree' => $duree, 'note' => $note, 'id_realisateur' =>  $idRealisateur, 'synopsis' => $synopsis, 'affiche_film' => $affiche_film]);
+        $dao->executerRequete($sql, ['titre' => $titre, 'date_sortie_france' => $date_sortie, 'duree' => $duree, 'note' => $note, 'id_realisateur' =>  $idRealisateur, 'synopsis' => $synopsis, 'affiche_film' => $affiche_film]);
         
 
         $sql2 = "INSERT INTO appartenir (id_film, id_genre)
@@ -168,7 +169,7 @@ class MovieController {
 
         foreach ($idGenres as $id_genre) {
 
-            $addGenresFilm = $dao->executerRequete($sql2, [':id_film' => $lastFilmId, ':id_genre' => $id_genre]);
+            $dao->executerRequete($sql2, [':id_film' => $lastFilmId, ':id_genre' => $id_genre]);
             
         }         
 
@@ -278,22 +279,22 @@ class MovieController {
                     AND
                     WHERE c.id_role = :id_role";
 
-        $idActor = filter_input(INPUT_POST, 'id_acteur', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $idRole = filter_input(INPUT_POST, 'id_role', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $idActor = filter_input(INPUT_POST, 'id_acteur', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $idRole = filter_input(INPUT_POST, 'id_role', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
             $params = [
                 ":id_acteur" => $idActor,
                 ":id_role" => $idRole
             ];
 
-            $delete = $dao->executerRequete($sql4, $params);
+            $dao->executerRequete($sql4, $params);
         }
         
 
         require "views/movie/deleteCastings.php";
     }
 
-    public function updateFilms($id, $array){
+    public function updateFilms($id){
         
         $dao = new DAO();
 
@@ -315,13 +316,13 @@ class MovieController {
         id_realisateur = :id_realisateur
         WHERE id_film = $id";
 
-        $titre = filter_var($array['titre'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $date = filter_var($array['date_sortie_france']);
-        $duree = filter_var($array['duree'], FILTER_SANITIZE_NUMBER_INT);
-        $synopsis = filter_var($array['synopsis'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $note = filter_var($array['note'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
-        $affiche_film = filter_var($array['affiche_film'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $idRealisateur = filter_var($array['id_realisateur'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $titre = filter_input(INPUT_POST,'titre', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $date = filter_input(INPUT_POST,'date_sortie_france');
+        $duree = filter_input(INPUT_POST,'duree', FILTER_SANITIZE_NUMBER_INT);
+        $synopsis = filter_input(INPUT_POST,'synopsis', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $note = filter_input(INPUT_POST,'note', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+        $affiche_film = filter_input(INPUT_POST,'affiche_film', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $idRealisateur = filter_input(INPUT_POST,'id_realisateur', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
         $params = [
             ":titre" => $titre,
@@ -333,7 +334,7 @@ class MovieController {
             ":id_realisateur" => $idRealisateur
             ];
         
-        $modifyFilm = $dao->executerRequete($sql2, $params);     
+        $dao->executerRequete($sql2, $params);     
 
         }
         require "views/movie/updateFilms.php";
@@ -371,7 +372,7 @@ class MovieController {
                 ":id_film" => $idFilm 
             ];
 
-            $delete = $dao->executerRequete($sql2, $params);
+            $dao->executerRequete($sql2, $params);
         }
         
         require "views/movie/deleteFilms.php";

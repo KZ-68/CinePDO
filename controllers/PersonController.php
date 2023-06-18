@@ -196,7 +196,7 @@ class PersonController {
             ":date_naissance" => $dateNaissance
             ];
 
-        $addPerson = $dao->executerRequete($sql, $params);
+        $dao->executerRequete($sql, $params);
 
         // Comme la session est déjà démarré dans les autres fichiers, on peut créer un tableau de $_SESSION pour afficher un message
         $_SESSION['flash_message'] = "".$prenom." ".$nom." à été ajouté avec succès !";
@@ -224,7 +224,7 @@ class PersonController {
             ":id_personne" => $idPersonne
             ];
 
-        $addPerson = $dao->executerRequete($sql, $params);
+        $dao->executerRequete($sql, $params);
 
         }
 
@@ -260,7 +260,7 @@ class PersonController {
             ":date_naissance" => $date_naissance
             ];
 
-        $editPerson = $dao->executerRequete($sql2, $params);
+        $dao->executerRequete($sql2, $params);
 
         }
 
@@ -286,7 +286,7 @@ class PersonController {
             ":id_personne" => $idPersonne
             ];
 
-        $addPerson = $dao->executerRequete($sql, $params);
+        $dao->executerRequete($sql, $params);
 
         }
 
@@ -322,7 +322,7 @@ class PersonController {
             ":date_naissance" => $date_naissance
             ];
 
-        $editPerson = $dao->executerRequete($sql2, $params);
+        $dao->executerRequete($sql2, $params);
 
         }
 
@@ -352,7 +352,7 @@ class PersonController {
             ":id_realisateur" => $idDirector
         ];
 
-        $deleteDirector = $dao->executerRequete($sql2, $params2);
+        $dao->executerRequete($sql2, $params2);
 
         }
 
@@ -382,7 +382,7 @@ class PersonController {
             ":id_acteur" => $idActor
         ];
 
-        $deleteActor = $dao->executerRequete($sql2, $params2);
+        $dao->executerRequete($sql2, $params2);
 
         }
 

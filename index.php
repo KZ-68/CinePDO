@@ -6,7 +6,6 @@ require_once "controllers/PersonController.php";
 require_once "controllers/MovieController.php";
 require_once "controllers/GenreController.php";
 require_once "controllers/RoleController.php";
-require_once "controllers/AppartenirController.php";
 
 // je crée des instances des controlleurs
 
@@ -15,18 +14,16 @@ $personCtrl = new PersonController();
 $filmCtrl = new MovieController();
 $genreCtrl = new GenreController();
 $roleCtrl = new RoleController();
-$appartenirCtrl = new AppartenirController();
 
 // l'index va intercepter la requête HTTP et vas orienter vers le bon controlleur et la bonne méthode
 
 // ex: index.php?action=listFilms
 
 if(isset($_GET['action'])) {
-
-    // $id = filter_input(INPUT_GET,'id', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $id = filter_input(INPUT_GET,'id', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    $id2 = filter_input(INPUT_GET,'id', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-
+    /* On enregistre une variable $id qui prends comme valeur un input GET qui se nomme "id",
+    le contenu de l'input (après le symbole =) sera un identifiant en int présent dans la BDD. */
+    
     switch($_GET['action']) {
         // listes
         case "listFilms": $filmCtrl->findAllFilms(); break;
@@ -48,14 +45,14 @@ if(isset($_GET['action'])) {
         case "personsForm": $personCtrl->openPersonsForm(); break;
         // add
         case "addGenres": $genreCtrl->addGenres(); break;
-        case "addFilms": $filmCtrl->addFilms($_POST); break;
+        case "addFilm": $filmCtrl->addFilms($_POST); break;
         case "addCastings": $filmCtrl->addCastings($id); break; 
         case "addPersons": $personCtrl->addPersons($_POST); break;
         case "addActors": $personCtrl->addActors(); break;
         case "addDirectors": $personCtrl->addDirectors(); break;
         case "addRoles": $roleCtrl->addRoles(); break;
-        // modify
-        case "updateFilms": $filmCtrl->updateFilms($id, $_POST); break;
+        // update
+        case "updateFilms": $filmCtrl->updateFilms($id); break;
         case "updateActors": $personCtrl->updateActors($id); break;
         case "updateDirectors": $personCtrl->updateDirectors($id); break;
         case "updateRoles": $roleCtrl->updateRoles($id); break;
