@@ -52,7 +52,7 @@ ob_start();
             <label for="synopsis">Synopsis :</label>
             <textarea name="synopsis" id="synopsis" rows="4" required></textarea>
 
-            <input id="submit" type="submit" name="addFilms" value="Ajouter">
+            <input id="submit" type="submit" name="addFilm" value="Ajouter">
         </form>
     </div>
 

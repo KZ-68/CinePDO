@@ -13,7 +13,7 @@ ob_start();
                 <label for="libelle">Libellé du Genre :</label>
                 <input type="text" name="libelle" id="libelle" required>
             </div>
-            <input id="submit" type="submit" name="addGenres" value="Ajouter">
+            <input id="submit" type="submit" name="addGenre" value="Ajouter">
         </form>
     </div>
 

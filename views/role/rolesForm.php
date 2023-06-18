@@ -13,7 +13,7 @@ ob_start();
                 <label for="nom_role">Nom du Role :</label>
                 <input type="text" name="nom_role" id="nom_role" required>
             </div>
-            <input id="submit" type="submit" name="addRoles" value="Ajouter">
+            <input id="submit" type="submit" name="addRole" value="Ajouter">
         </form>
     </div>
 

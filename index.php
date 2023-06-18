@@ -45,7 +45,7 @@ if(isset($_GET['action'])) {
         case "personsForm": $personCtrl->openPersonsForm(); break;
         // add
         case "addGenres": $genreCtrl->addGenres(); break;
-        case "addFilm": $filmCtrl->addFilms($_POST); break;
+        case "addFilms": $filmCtrl->addFilms($_POST); break;
         case "addCastings": $filmCtrl->addCastings($id); break; 
         case "addPersons": $personCtrl->addPersons($_POST); break;
         case "addActors": $personCtrl->addActors(); break;
