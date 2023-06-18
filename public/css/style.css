@@ -126,15 +126,48 @@ input#photo {
     gap: 20px;
 }
 
-.addFilms_btn {
+.links {
+    text-decoration: none;
+}
+
+.films_btn {
     padding: 5px;
     border: 2px solid;
     border-radius: 5px;
-    width: 127px;
+    width: 165px;
+    text-align: center;
 }
 
-.addFilms_link {
-    text-decoration: none;
+.actors_btn {
+    padding: 5px;
+    border: 2px solid;
+    border-radius: 5px;
+    width: 155px;
+    text-align: center;
+}
+
+.directors_btn {
+    padding: 5px;
+    border: 2px solid;
+    border-radius: 5px;
+    width: 177px;
+    
+}
+
+.genres_btn {
+    padding: 5px;
+    border: 2px solid;
+    border-radius: 5px;
+    width: 140px;
+    text-align: center;
+}
+
+.roles_btn {
+    padding: 5px;
+    border: 2px solid;
+    border-radius: 5px;
+    width: 140px;
+    text-align: center;
 }
 
 .section_addFilms {
@@ -151,28 +184,6 @@ input#photo {
     width: 900px;
     border: 2px solid;
     border-radius: 10px;
-}
-
-.addGenres_btn {
-    padding: 5px;
-    border: 2px solid;
-    border-radius: 5px;
-    width: 140px;
-}
-
-.addGenres_link {
-    text-decoration: none;
-}
-
-.addRoles_btn {
-    padding: 5px;
-    border: 2px solid;
-    border-radius: 5px;
-    width: 129px;
-}
-
-.addRoles_link {
-    text-decoration: none;
 }
 
 .formular_base {
