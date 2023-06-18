@@ -33,6 +33,9 @@ while ($film = $films->fetch()) {
     <h3>Ajouter un casting</h3>
 </a>
 
+<a href='index.php?action=deleteCastings&id=<?=$film['id_film']?>'>
+    <h3>Supprimer un casting</h3>
+</a>
 
 <a href="index.php?action=detailFilm&id=<?=$film['id_film']?>">
     <!-- <p>Detail Film</p> -->
