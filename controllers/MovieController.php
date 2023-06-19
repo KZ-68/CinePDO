@@ -179,8 +179,148 @@ class MovieController {
         $this->findAllFilms();
     }
 
-    public function addCastings($id) {
+    public function openUpdateFilmsForm($id) {
+        
+        $dao = new DAO();
 
+        $sql = "SELECT 
+                    f.id_film, 
+                    f.titre, 
+                    f.date_sortie_france, 
+                    f.duree, 
+                    f.synopsis, 
+                    f.note, 
+                    f.affiche_film, 
+                    f.id_realisateur
+                FROM film f
+                WHERE id_film = $id";
+
+        $idFilmsForm = $dao->executerRequete($sql);
+
+        $sql2 = "SELECT 
+                    re.id_realisateur, 
+                    p.nom, 
+                    p.prenom 
+                FROM realisateur re
+                INNER JOIN personne p ON re.id_personne = p.id_personne";
+
+        $filmDirector = $dao->executerRequete($sql2);
+
+        $sql3 = "SELECT g.id_genre, g.libelle
+                FROM genre g";              
+            
+        $filmGenresForm = $dao->executerRequete($sql3);
+
+        require "views/movie/updateFilmsForm.php";
+    }
+
+    public function updateFilms($id, $array){
+        
+        $dao = new DAO();
+
+        // vérifie si la table de la méthode POST existe
+        if (isset($_POST['updateFilm'])) {
+            
+            $sql = "UPDATE film SET
+                        titre = :titre, 
+                        date_sortie_france = :date_sortie_france, 
+                        duree = :duree, 
+                        synopsis = :synopsis, 
+                        note = :note, 
+                        affiche_film = :affiche_film,  
+                        id_realisateur = :id_realisateur
+                    WHERE id_film = $id";
+
+            $titre = filter_input(INPUT_POST,'titre', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $date = filter_input(INPUT_POST,'date_sortie_france');
+            $duree = filter_input(INPUT_POST,'duree', FILTER_SANITIZE_NUMBER_INT);
+            $synopsis = filter_input(INPUT_POST,'synopsis', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $note = filter_input(INPUT_POST,'note', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+            $affiche_film = filter_input(INPUT_POST,'affiche_film', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $idGenres = filter_var_array($array['id_genre'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $idRealisateur = filter_input(INPUT_POST,'id_realisateur', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+            $params = [
+                ":titre" => $titre,
+                ":date_sortie_france" => $date,
+                ":duree" => $duree,
+                ":note" => $note,
+                ":synopsis" => $synopsis,
+                ":affiche_film" => $affiche_film,
+                ":id_realisateur" => $idRealisateur
+                ];
+            
+            $dao->executerRequete($sql, $params);
+
+            $sql2 = "DELETE FROM appartenir
+                    WHERE id_film = :id_film";            
+
+            $dao->executerRequete($sql2, [':id_film' => $id]);              
+                
+
+            $sql3 = "INSERT INTO appartenir (id_film, id_genre)
+            VALUES (:id_film, :id_genre);"; 
+
+            foreach ($idGenres as $id_genre) {
+
+                $dao->executerRequete($sql3, [':id_film'=> $id, ':id_genre' => $id_genre]);
+                
+            }   
+
+        }
+        
+        $_SESSION['flash_message'] = "Le film $titre à été mis à jour avec succès !";
+        $this->findAllFilms();
+    }
+
+    public function openDeleteFilmsForm() {
+        
+        $dao = new DAO();
+
+        $sql = "SELECT 
+                    f.id_film, 
+                    f.titre, 
+                    f.date_sortie_france, 
+                    f.duree, 
+                    f.synopsis, 
+                    f.note, 
+                    affiche_film, 
+                    f.id_realisateur
+                FROM film f";
+
+        $films = $dao->executerRequete($sql);
+
+        require "views/movie/deleteFilmsForm.php";
+    }
+
+    public function deleteFilms() {
+
+        $dao = new DAO();
+
+        // vérifie si la table de la méthode POST existe
+        if (isset($_POST['deleteFilm'])) {
+            $idFilm = $_POST['id_film'];
+
+            $sql2 = "DELETE FROM appartenir ap
+                    WHERE ap.id_film = :id_film;
+                    DELETE FROM casting c
+                    WHERE c.id_film = :id_film;
+                    DELETE FROM film f
+                    WHERE f.id_film = :id_film";
+
+            $params = [
+                ":id_film" => $idFilm 
+            ];
+
+            $dao->executerRequete($sql2, $params);
+        }
+
+        $_SESSION['flash_message'] = "Le film à été supprimé avec succès !";
+        $this->findAllFilms();
+    }
+
+    public function openAddCastingsForm($id) {
+        
         $dao = new DAO();
 
         $sql = "SELECT
@@ -208,7 +348,14 @@ class MovieController {
                 FROM 
                     role ro";
 
-        $roleCasting = $dao->executerRequete($sql3);    
+        $roleCasting = $dao->executerRequete($sql3);
+
+        require "views/movie/addCastingsForm.php";
+    }
+
+    public function addCastings($id) {
+
+        $dao = new DAO();    
 
         if (isset($_POST['addCasting'])) {
 
@@ -229,13 +376,78 @@ class MovieController {
                 $dao->executerRequete($sql4, $params);
 
         }
-
-        require "views/movie/addCastings.php";
         
+        $_SESSION['flash_message'] = "Le casting à été ajouté avec succès !";
+        $this->findAllFilms();
     }
 
-    public function deleteCastings($id) {
+    public function openUpdateCastingsForm($id) {
+        
+        $dao = new DAO();
 
+        $sql = "SELECT
+                    f.id_film,
+                    f.titre
+                FROM 
+                    film f
+                WHERE f.id_film = $id";
+
+        $filmCasting = $dao->executerRequete($sql);
+        
+        $sql2 = "SELECT
+                    a.id_acteur,
+                    p.prenom,
+                    p.nom
+                FROM 
+                    acteur a
+                INNER JOIN personne p ON p.id_personne = a.id_personne";
+
+        $actorCasting = $dao->executerRequete($sql2);        
+
+        $sql3 = "SELECT
+                    ro.id_role,
+                    ro.nom_role
+                FROM 
+                    role ro";
+
+        $roleCasting = $dao->executerRequete($sql3);
+
+        require "views/movie/updateCastingsForm.php";
+    }
+
+    public function updateCastings($id) {
+
+        $dao = new DAO();
+
+        if (isset($_POST['updateCasting'])) {
+
+            $sql4 = "UPDATE casting SET
+            id_film = :id_film,
+            id_acteur = :id_acteur,
+            id_role = :id_role
+            WHERE id_film = $id"; 
+    
+            $idActor = filter_input(INPUT_POST, 'id_acteur', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $idRole = filter_input(INPUT_POST, 'id_role', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            
+            /* On ajoute tous les paramètres en une fois car on souhaite ajouter un casting pour UN film précis, 
+            par le biais de son id, et un acteur aura un seul role */
+                $params = [
+                    ":id_film" => $id,
+                    ":id_acteur" => $idActor,
+                    ":id_role" => $idRole
+                ];
+
+                $dao->executerRequete($sql4, $params);
+
+        }
+
+        $_SESSION['flash_message'] = "Le casting à été mis à jour avec succès !";
+        $this->findAllFilms();
+    }
+
+    public function openDeleteCastingsForm($id) {
+        
         $dao = new DAO();
 
         $sql = "SELECT
@@ -271,6 +483,13 @@ class MovieController {
 
         $roleCasting = $dao->executerRequete($sql3);
 
+        require "views/movie/deleteCastingsForm.php";
+    }
+
+    public function deleteCastings($id) {
+
+        $dao = new DAO();
+
         // vérifie si la table de la méthode POST existe
         if (isset($_POST['deleteCasting'])) {
 
@@ -290,94 +509,9 @@ class MovieController {
             $dao->executerRequete($sql4, $params);
         }
         
-
-        require "views/movie/deleteCastings.php";
+        $_SESSION['flash_message'] = "Le casting à été supprimé avec succès !";
+        $this->findAllFilms();
     }
-
-    public function updateFilms($id){
-        
-        $dao = new DAO();
-
-        $dao = new DAO();
-        $sql = "SELECT f.id_film
-        FROM film f";
-        $result = $dao->executerRequete($sql);
-
-        // vérifie si la table de la méthode POST existe
-        if (isset($_POST['updateFilm'])) {
-            
-        $sql2 = "UPDATE film SET
-        titre = :titre, 
-        date_sortie_france = :date_sortie_france, 
-        duree = :duree, 
-        synopsis = :synopsis, 
-        note = :note, 
-        affiche_film = :affiche_film,  
-        id_realisateur = :id_realisateur
-        WHERE id_film = $id";
-
-        $titre = filter_input(INPUT_POST,'titre', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $date = filter_input(INPUT_POST,'date_sortie_france');
-        $duree = filter_input(INPUT_POST,'duree', FILTER_SANITIZE_NUMBER_INT);
-        $synopsis = filter_input(INPUT_POST,'synopsis', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $note = filter_input(INPUT_POST,'note', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
-        $affiche_film = filter_input(INPUT_POST,'affiche_film', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $idRealisateur = filter_input(INPUT_POST,'id_realisateur', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-
-        $params = [
-            ":titre" => $titre,
-            ":date_sortie_france" => $date,
-            ":duree" => $duree,
-            ":note" => $note,
-            ":synopsis" => $synopsis,
-            ":affiche_film" => $affiche_film,
-            ":id_realisateur" => $idRealisateur
-            ];
-        
-        $dao->executerRequete($sql2, $params);     
-
-        }
-        require "views/movie/updateFilms.php";
-    }
-
-    public function deleteFilms() {
-
-        $dao = new DAO();
-
-        $sql = "SELECT 
-                    f.id_film, 
-                    f.titre, 
-                    f.date_sortie_france, 
-                    f.duree, 
-                    f.synopsis, 
-                    f.note, 
-                    affiche_film, 
-                    f.id_realisateur
-                FROM film f";
-
-        $films = $dao->executerRequete($sql);
-
-        // vérifie si la table de la méthode POST existe
-        if (isset($_POST['deleteFilm'])) {
-            $idFilm = $_POST['id_film'];
-
-            $sql2 = "DELETE FROM appartenir ap
-                    WHERE ap.id_film = :id_film;
-                    DELETE FROM casting c
-                    WHERE c.id_film = :id_film;
-                    DELETE FROM film f
-                    WHERE f.id_film = :id_film";
-
-            $params = [
-                ":id_film" => $idFilm 
-            ];
-
-            $dao->executerRequete($sql2, $params);
-        }
-        
-        require "views/movie/deleteFilms.php";
-    }
-
 }
 
 ?> 

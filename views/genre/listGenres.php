@@ -8,7 +8,7 @@ ob_start();
 
 <?= "Nombre de genres dans la base de données : {$genres->rowcount()}\n" ?>
 
-<a class='links' href='index.php?action=deleteGenres'>
+<a class='links' href='index.php?action=deleteGenresForm'>
 <p class='genres_btn'>Supprimer Genre</p>
 </a>
 

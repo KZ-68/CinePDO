@@ -8,14 +8,20 @@ ob_start();
 <h2 id='h2_updateRoles'>Editer un role</h2>
 
     <div class="updateRoles_wrapper">
-        <form class='formular_base' action="" method="post">
+        <?php
+        if ($role = $idRoleForm->fetch()) {
+        ?>
+            <form class='formular_base' action="index.php?action=updateRoles&id=<?=$role['id_role']?>" method="post">
             <div class="nom_role">
                 <label for="nom_role">Nom du role:</label>
                 <input type="text" name="nom_role" id="nom_role" required>
             </div>
 
             <input id="submit" type="submit" name="updateRole" value="Editer">
-        </form>
+            </form>
+        <?php
+        }
+        ?>
     </div>
 
 </section>

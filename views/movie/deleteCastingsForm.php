@@ -9,7 +9,10 @@ ob_start();
 
     <div class="deleteCastings_wrapper">
     
-    <form class='formular_base' action ='' method='post'>
+    <?php
+    if ($film = $filmCasting->fetch()) {
+    ?>
+    <form class='formular_base' action ='index.php?action=deleteCastings&id=<?=$film['id_film']?>' method='post'>
 
     <select name = "id_acteur" id="id_acteur" required>
 
@@ -39,6 +42,9 @@ ob_start();
 
             <input id="submit" type="submit" name="deleteCasting" value="Supprimer">
         </form>
+    <?php
+    }
+    ?>
     </div>
 
 </section>

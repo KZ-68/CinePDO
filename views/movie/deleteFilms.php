@@ -3,7 +3,7 @@ ob_start();
 // démarre la temporisation de sortie
 ?>
 
-<form class='formular_base' action="" method="post">
+<form class='formular_base' action="index.php?action=deleteFilms" method="post">
     
     <label for="id_film">Réalisateur :</label>
     <select name="id_film" id="id_film" required>

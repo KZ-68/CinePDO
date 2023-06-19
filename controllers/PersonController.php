@@ -38,8 +38,7 @@ class PersonController {
                     p.sexe,
                     p.date_naissance
                 FROM
-                    casting c
-                INNER JOIN acteur a ON a.id_acteur = c.id_acteur
+                    acteur a
                 INNER JOIN personne p ON p.id_personne = a.id_personne
                 WHERE a.id_acteur = :id_acteur";
 
@@ -103,8 +102,7 @@ class PersonController {
                     p.sexe,
                     p.date_naissance
                 FROM
-                    film f
-                INNER JOIN realisateur re ON re.id_realisateur = f.id_realisateur
+                    realisateur re
                 INNER JOIN personne p ON p.id_personne = re.id_personne
                 WHERE re.id_realisateur = :id_realisateur";
 
@@ -205,13 +203,23 @@ class PersonController {
 
     }
 
-    public function addDirectors(){
+    public function openAddDirectorsForm() {
         
         $dao = new DAO();
 
-        $sql = "SELECT p.id_personne, p.nom, p.prenom 
-                        FROM personne p";
-        $result = $dao->executerRequete($sql);
+        $sql = "SELECT 
+                    p.id_personne, 
+                    p.nom, 
+                    p.prenom
+                FROM personne p";
+        $person = $dao->executerRequete($sql);
+
+        require "views/director/addDirectorsForm.php";
+    }
+
+    public function addDirectors(){
+        
+        $dao = new DAO();
                 
         // vérifie si la table de la méthode POST existe
         if (isset($_POST['addDirector'])) {
@@ -228,7 +236,21 @@ class PersonController {
 
         }
 
-        require "views/director/addDirectors.php";
+        $_SESSION['flash_message'] = "Le réalisateur à été ajouté avec succès !";
+        $this->findAllDirectors();
+    }
+
+    public function openUpdateDirectorsForm($id) {
+        
+        $dao = new DAO();
+
+        $sql = "SELECT 
+                    p.id_personne
+                FROM personne p
+                WHERE id_personne = $id";
+        $idPersonsForm = $dao->executerRequete($sql);
+
+        require "views/director/updateDirectorsForm.php";
     }
 
     public function updateDirectors($id){
@@ -264,16 +286,27 @@ class PersonController {
 
         }
 
-        require "views/director/updateDirectors.php";
+        $_SESSION['flash_message'] = "Le réalisateur $prenom $nom à été mis à jour avec succès !";
+        $this->findAllDirectors();
+    }
+
+    public function openAddActorsForm() {
+        
+        $dao = new DAO();
+
+        $sql = "SELECT 
+                    p.id_personne, 
+                    p.nom, 
+                    p.prenom
+                FROM personne p";
+        $person = $dao->executerRequete($sql);
+
+        require "views/actor/addActorsForm.php";
     }
 
     public function addActors(){
         
         $dao = new DAO();
-
-        $sql = "SELECT p.id_personne, p.nom, p.prenom
-                FROM personne p";
-        $result = $dao->executerRequete($sql);
 
         // vérifie si la table de la méthode POST existe
         if (isset($_POST['addActor'])) {
@@ -290,7 +323,21 @@ class PersonController {
 
         }
 
-        require "views/actor/addActors.php";
+        $_SESSION['flash_message'] = "L'acteur à été ajouté avec succès !";
+        $this->findAllActors();
+    }
+
+    public function openUpdateActorsForm($id) {
+        
+        $dao = new DAO();
+
+        $sql = "SELECT 
+                    p.id_personne
+                FROM personne p
+                WHERE id_personne = $id";
+        $idPersonsForm = $dao->executerRequete($sql);
+
+        require "views/actor/updateActorsForm.php";
     }
 
     public function updateActors($id){
@@ -326,7 +373,24 @@ class PersonController {
 
         }
 
-        require "views/actor/updateActors.php";
+        $_SESSION['flash_message'] = "L'acteur $prenom $nom à été mis à jour avec succès !";
+        $this->findAllActors();
+    }
+
+    public function openDeleteDirectorsForm() {
+        
+        $dao = new DAO();
+
+        $sql = "SELECT 
+                    re.id_realisateur, 
+                    p.nom, 
+                    p.prenom 
+                FROM realisateur re
+                INNER JOIN personne p ON re.id_personne = p.id_personne";
+
+        $director = $dao->executerRequete($sql);
+
+        require "views/director/deleteDirectorsForm.php";
     }
 
     public function deleteDirectors(){
@@ -356,18 +420,29 @@ class PersonController {
 
         }
 
-        require "views/director/deleteDirectors.php";
+        $_SESSION['flash_message'] = "Le réalisateur à été supprimé avec succès !";
+        $this->findAllDirectors();
+    }
+
+    public function openDeleteActorsForm() {
+        
+        $dao = new DAO();
+
+        $sql = "SELECT 
+                    a.id_acteur, 
+                    p.nom, 
+                    p.prenom
+                FROM acteur a
+                INNER JOIN personne p ON a.id_personne = p.id_personne";
+
+        $actor = $dao->executerRequete($sql);
+
+        require "views/actor/deleteActorsForm.php";
     }
 
     public function deleteActors(){
         
         $dao = new DAO();
-
-        $sql = "SELECT a.id_acteur, p.nom, p.prenom 
-                FROM acteur a
-                INNER JOIN personne p ON a.id_personne = p.id_personne";
-
-        $actor = $dao->executerRequete($sql);
 
         if (isset($_POST['deleteActor'])) {
             $idActor = $_POST['id_acteur'];
@@ -385,8 +460,8 @@ class PersonController {
         $dao->executerRequete($sql2, $params2);
 
         }
-
-        require "views/actor/deleteActors.php";
+        $_SESSION['flash_message'] = "L'acteur à été supprimé avec succès !";
+        $this->findAllActors();
     }
 }
 

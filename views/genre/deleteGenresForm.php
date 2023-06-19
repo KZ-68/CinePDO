@@ -3,7 +3,7 @@ ob_start();
 // démarre la temporisation de sortie
 ?>
 
-<form class='formular_base' action="" method="post">
+<form class='formular_base' action="index.php?action=deleteGenres" method="post">
     
     <label for="id_genre">Supprimer un genre :</label>
     <select name="id_genre" id="id_genre" required>

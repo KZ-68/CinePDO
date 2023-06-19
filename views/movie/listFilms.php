@@ -9,7 +9,7 @@ ob_start();
 
 <?= "<p>Nombre de films dans la base de données : {$films->rowcount()}</p>" ?>
 
-<a class='links' href='index.php?action=deleteFilms'>
+<a class='links' href='index.php?action=deleteFilmsForm'>
     <p class='films_btn'>Supprimer Film</p>
 </a>
 
@@ -29,11 +29,15 @@ while ($film = $films->fetch()) {
     <p>{$film["id_film"]}</p>";
 ?>
 
-<a class='links' href='index.php?action=addCastings&id=<?=$film['id_film']?>'>
+<a class='links' href='index.php?action=addCastingsForm&id=<?=$film['id_film']?>'>
     <p class='films_btn'>Ajouter casting</p>
 </a>
 
-<a class='links' href='index.php?action=deleteCastings&id=<?=$film['id_film']?>'>
+<a class='links' href='index.php?action=updateCastingsForm&id=<?=$film['id_film']?>'>
+    <p class='films_btn'>Mettre à jour un casting</p>
+</a>
+
+<a class='links' href='index.php?action=deleteCastingsForm&id=<?=$film['id_film']?>'>
     <p class='films_btn'>Supprimer casting</p>
 </a>
 

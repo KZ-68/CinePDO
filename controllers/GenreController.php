@@ -25,17 +25,10 @@ class GenreController{
 
         $sql = "SELECT
                     g.id_genre,
-                    g.libelle,
-                    f.id_film,
-                    f.titre,
-                    f.affiche_film,
-                    DATE_FORMAT(f.date_sortie_france, '%e %M %Y') AS sortieSalleFrance,
-                    SEC_TO_TIME(f.duree*60) AS tempsHeure
+                    g.libelle
                 FROM
-                    appartenir ap
-                INNER JOIN film f ON f.id_film = ap.id_film
-                INNER JOIN genre g ON g.id_genre = ap.id_genre
-                WHERE ap.id_genre = :id_genre";
+                    genre g
+                WHERE g.id_genre = :id_genre";
 
             $params = [
                 ":id_genre" => $id
@@ -92,6 +85,20 @@ class GenreController{
         $this->findAllGenres();
     }
 
+    public function openUpdateGenresForm($id) {
+        
+        $dao = new DAO();
+
+        $sql = "SELECT
+                    id_genre
+                FROM genre
+                WHERE id_genre = $id";
+        
+        $idGenre = $dao->executerRequete($sql);
+
+        require "views/genre/updateGenresForm.php";
+    }
+
     public function updateGenres($id) {
         
         $dao = new DAO();
@@ -111,17 +118,25 @@ class GenreController{
 
         } 
 
-        require  "views/genre/updateGenres.php";
+        $_SESSION['flash_message'] = "Le genre " .$libelle. " à été mis à jour avec succès !";
+        $this->findAllGenres();
     }
 
-    public function deleteGenres(){
-
+    public function openDeleteGenresForm() {
+        
         $dao = new DAO();
 
         $sql = "SELECT g.id_genre, g.libelle
                 FROM genre g";
 
         $genre = $dao->executerRequete($sql);
+
+        require "views/genre/deleteGenresForm.php";
+    }
+
+    public function deleteGenres(){
+
+        $dao = new DAO();
 
         // vérifie si la table de la méthode POST existe
         if (isset($_POST['deleteGenre'])) {
@@ -140,7 +155,8 @@ class GenreController{
             $dao->executerRequete($sql2, $params);
 
         }
-        require "views/genre/deleteGenres.php";
+        $_SESSION['flash_message'] = "Le genre à été supprimé avec succès !";
+        $this->findAllGenres();
     }
 }
 

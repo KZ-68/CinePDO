@@ -8,16 +8,17 @@ if ($film = $film->fetch()) {
 
     echo "<div class='card_website'>
     <p>Titre du Film : {$film["titre"]}
-    <a href='index.php?action=updateFilms&id={$film['id_film']}'>
+    <a href='index.php?action=updateFilmsForm&id={$film['id_film']}'>
     <h3>Modifier ce Film</h3>
     </a></p>
     <img class='posterMovie' src='./public/image/{$film['affiche_film']}'>
     <p>Date de sortie en France : {$film["sortieSalleFrance"]}</p>
-    <p>Durée : {$film["tempsHeure"]}</p>";
+    <p>Durée : {$film["tempsHeure"]}</p>
+    Genre :";
     while ($genre = $genreFilm->fetch()) {
         ?>
-        <p>Genre : <a href='index.php?action=detailGenre&id=<?=$genre['id_genre']?>'>
-         <?=$genre["libelle"]?></a></p>
+         <a href='index.php?action=detailGenre&id=<?=$genre['id_genre']?>'>
+         <?=$genre["libelle"]?></a>
         <?php
     }
 

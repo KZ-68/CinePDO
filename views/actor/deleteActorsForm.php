@@ -3,7 +3,7 @@ ob_start();
 // démarre la temporisation de sortie
 ?>
 
-<form class='formular_base' action="" method="post">
+<form class='formular_base' action="index.php?action=deleteActors" method="post">
     
     <label for="id_acteur">Supprimer un Acteur :</label>
     <select name="id_acteur" id="id_acteur" required>

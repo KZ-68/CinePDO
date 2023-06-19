@@ -3,7 +3,7 @@ ob_start();
 // démarre la temporisation de sortie
 ?>
 
-<form class='formular_base' action="" method="post">
+<form class='formular_base' action="index.php?action=deleteRoles" method="post">
     
     <label for="id_role">Supprimer un role :</label>
     <select name="id_role" id="id_role" required>

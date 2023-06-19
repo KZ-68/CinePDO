@@ -35,14 +35,9 @@ class RoleController{
 
         $sql = "SELECT
                     ro.id_role,
-                    ro.nom_role,
-                    f.titre,
-                    DATE_FORMAT(f.date_sortie_france, '%e %M %Y') AS sortieSalleFrance,
-                    SEC_TO_TIME(f.duree*60) AS tempsHeure
+                    ro.nom_role
                 FROM
-                    casting c
-                INNER JOIN role ro ON ro.id_role = c.id_role
-                INNER JOIN film f ON f.id_film = c.id_film
+                    role ro
                 WHERE ro.id_role = :id_role";
 
             $params = [
@@ -116,10 +111,24 @@ class RoleController{
         $this->findAllRoles();
     }
 
-    public function updateRoles($id) {
+    public function openUpdateRolesForm($id) {
         
         $dao = new DAO();
 
+        $sql = "SELECT
+                    id_role
+                FROM
+                    role
+                WHERE id_role = $id";
+        
+        $idRoleForm = $dao->executerRequete($sql);
+
+        require "views/role/updateRolesForm.php";
+    }
+
+    public function updateRoles($id) {
+        
+        $dao = new DAO();
 
         if (isset($_POST['updateRole'])) {
         $sql = "UPDATE role SET 
@@ -136,27 +145,37 @@ class RoleController{
 
         } 
 
-        require  "views/role/updateRoles.php";
+        $_SESSION['flash_message'] = "Le rôle de " .$nomRole. " à été mis à jour avec succès !";
+        $this->findAllRoles();
+    }
+
+    public function openDeleteRolesForm() {
+        
+        $dao = new DAO();
+
+        $sql = "SELECT
+                    ro.id_role,
+                    ro.nom_role
+                FROM role ro";
+
+        $roles = $dao->executerRequete($sql);
+
+        require "views/role/deleteRolesForm.php";
     }
 
     public function deleteRoles() {
 
         $dao = new DAO();
 
-        $sql = "SELECT ro.id_role, ro.nom_role
-                FROM role ro";
-
-        $roles = $dao->executerRequete($sql);
-
         // vérifie si la table de la méthode POST existe
         if (isset($_POST['deleteRole'])) {
             $idRole = $_POST['id_role'];
 
-            $sql2 ="DELETE FROM role ro
-                    WHERE ro.id_role = :id_role;
-
-                    DELETE FROM casting c
-                    WHERE c.id_role = :id_role";
+            $sql2 ="DELETE FROM casting c
+                    WHERE c.id_role = :id_role;
+            
+                    DELETE FROM role ro
+                    WHERE ro.id_role = :id_role";
 
             $params = [
                 ":id_role" => $idRole 
@@ -165,7 +184,8 @@ class RoleController{
             $dao->executerRequete($sql2, $params);
         }
         
-        require "views/role/deleteRoles.php";
+        $_SESSION['flash_message'] = "Le rôle à été supprimé avec succès !";
+        $this->findAllRoles();
     }
 }
 

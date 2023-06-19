@@ -9,7 +9,7 @@ if ($actor = $actor->fetch()) {
     
     // détail de l'acteur
     echo "<div class='card_website'>
-    <a href='index.php?action=editActors&id={$actor['id_personne']}'>
+    <a href='index.php?action=updateActorsForm&id={$actor['id_personne']}'>
     <h3>Modifier cet acteur</h3>
     </a></p>
     

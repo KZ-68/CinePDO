@@ -7,7 +7,7 @@ ob_start();
 if ($director = $director->fetch()) {
 
     echo "<div class='card_website'>
-    <a href='index.php?action=updateDirectors&id={$director['id_personne']}'>
+    <a href='index.php?action=updateDirectorsForm&id={$director['id_personne']}'>
     <h3>Modifier ce réalisateur</h3>
     </a></p>
     <img class='photoPerson' src='public/image/{$director["photo"]}'<br/>

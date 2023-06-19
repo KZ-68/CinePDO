@@ -8,7 +8,7 @@ ob_start();
 if ($role = $role->fetch()) {
 
 ?>
-    <a href='index.php?action=updateRoles&id=<?=$role['id_role']?>'>
+    <a href='index.php?action=updateRolesForm&id=<?=$role['id_role']?>'>
     <h3>Editer Role</h3>
     </a>
 <?php
@@ -16,7 +16,7 @@ if ($role = $role->fetch()) {
     echo "<div class='card_website'>
     <p>Nom du role joué : {$role["nom_role"]}\n
     </div>";
-    
+} 
 ?>
 <h4>Film où le rôle apparait</h4>
 <section class="section_role">
@@ -46,7 +46,6 @@ if ($role = $role->fetch()) {
         echo "</figcaption>
         </figure>";
     }
-}
 ?>
 </section>
 

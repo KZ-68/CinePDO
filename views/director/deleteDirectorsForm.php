@@ -3,7 +3,7 @@ ob_start();
 // démarre la temporisation de sortie
 ?>
 
-<form class='formular_base' action="" method="post">
+<form class='formular_base' action="index.php?action=deleteDirectors" method="post">
     
     <label for="id_realisateur">Supprimer un realisateur :</label>
     <select name="id_realisateur" id="id_realisateur" required>
