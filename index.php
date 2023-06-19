@@ -40,24 +40,40 @@ if(isset($_GET['action'])) {
         case "detailRole": $roleCtrl->findOneRole($id); break;
         // formulaire
         case "filmsForm": $filmCtrl->openFilmsForm(); break;
+        case "updateFilmsForm": $filmCtrl->openUpdateFilmsForm($id); break;
+        case "deleteFilmsForm": $filmCtrl->openDeleteFilmsForm(); break;
+        case "addCastingsForm": $filmCtrl->openAddCastingsForm($id); break;
+        case "updateCastingsForm": $filmCtrl->openUpdateCastingsForm($id); break;
+        case "deleteCastingsForm": $filmCtrl->openDeleteCastingsForm($id); break;
         case "genresForm": $genreCtrl->openGenresForm(); break;
+        case "updateGenresForm": $genreCtrl->openUpdateGenresForm($id); break;
+        case "deleteGenresForm": $genreCtrl->openDeleteGenresForm(); break;
         case "rolesForm": $roleCtrl->openRolesForm(); break;
+        case "updateRolesForm": $roleCtrl->openUpdateRolesForm($id); break;
+        case "deleteRolesForm": $roleCtrl->openDeleteRolesForm(); break;
         case "personsForm": $personCtrl->openPersonsForm(); break;
-        // add
+        case "addActorsForm": $personCtrl->openAddActorsForm(); break;
+        case "updateActorsForm": $personCtrl->openUpdateActorsForm($id); break;
+        case "deleteActorsForm": $personCtrl->openDeleteActorsForm(); break;
+        case "addDirectorsForm": $personCtrl->openAddDirectorsForm(); break;
+        case "updateDirectorsForm": $personCtrl->openUpdateDirectorsForm($id); break;
+        case "deleteDirectorsForm": $personCtrl->openDeleteDirectorsForm(); break;
+        // add method
         case "addGenres": $genreCtrl->addGenres(); break;
         case "addFilms": $filmCtrl->addFilms($_POST); break;
-        case "addCastings": $filmCtrl->addCastings($id); break; 
+        case "addCastings": $filmCtrl->addCastings($id); break;
         case "addPersons": $personCtrl->addPersons($_POST); break;
         case "addActors": $personCtrl->addActors(); break;
         case "addDirectors": $personCtrl->addDirectors(); break;
         case "addRoles": $roleCtrl->addRoles(); break;
-        // update
-        case "updateFilms": $filmCtrl->updateFilms($id); break;
+        // update method
+        case "updateFilms": $filmCtrl->updateFilms($id, $_POST); break;
+        case "updateCastings": $filmCtrl->updateCastings($id); break;
         case "updateActors": $personCtrl->updateActors($id); break;
         case "updateDirectors": $personCtrl->updateDirectors($id); break;
         case "updateRoles": $roleCtrl->updateRoles($id); break;
         case "updateGenres": $genreCtrl->updateGenres($id); break;
-        // delete
+        // delete method
         case "deleteFilms": $filmCtrl->deleteFilms(); break;
         case "deleteCastings": $filmCtrl->deleteCastings($id); break;
         case "deleteGenres": $genreCtrl->deleteGenres(); break;
