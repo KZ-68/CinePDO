@@ -5,22 +5,27 @@ ob_start();
 
 <?php
 
-if ($actor = $actor->fetch()) {
-    
-    // détail de l'acteur
-    echo "<div class='card_website'>
-    <a href='index.php?action=updateActorsForm&id={$actor['id_personne']}'>
+if ($actor = $actorProfile->fetch()) {
+    ?>
+    <h4>Détail de l'acteur</h4>
+    <div class='card_website'>
+    <p><a href='index.php?action=updateActorsForm&id=<?=$actor['id_personne']?>'>
     <h3>Modifier cet acteur</h3>
     </a></p>
     
-    <img class='photoPerson' src='public/image/{$actor["photo"]}'<br/>
-        Prénom et Nom de l'acteur : {$actor["prenom"]} {$actor["nom"]}<br/>
-        Sexe : {$actor["sexe"]}<br/>
-        Date de naissance : {$actor["date_naissance"]}</p>
-    </div>";
+    <img class='photoPerson' src='public/image/<?=$actor["photo"]?>'>
+        <p>Prénom et Nom de l'acteur : <?=$actor["prenom"]?> <?=$actor["nom"]?><br/>
+        Sexe : <?=$actor["sexe"]?><br/>
+        Date de naissance : <?=$actor["date_naissance"]?></p>
+        <?php
+        while ($role = $rolesActor->fetch()) {
+        ?> 
+            <p>Role joué par cet acteur : <?=$role['nom_role']?></p>
+        <?php 
+        }
+        ?>
+    </div>
 
-    // liste des films de cet acteur
-?>
 <h4>Filmographie de l'acteur</h4>
 <section class="section_actor1">
 <?php  
