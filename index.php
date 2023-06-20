@@ -52,6 +52,7 @@ if(isset($_GET['action'])) {
         case "updateRolesForm": $roleCtrl->openUpdateRolesForm($id); break;
         case "deleteRolesForm": $roleCtrl->openDeleteRolesForm(); break;
         case "personsForm": $personCtrl->openPersonsForm(); break;
+        case "deletePersonsForm": $personCtrl->openDeletePersonsForm(); break;
         case "addActorsForm": $personCtrl->openAddActorsForm(); break;
         case "updateActorsForm": $personCtrl->openUpdateActorsForm($id); break;
         case "deleteActorsForm": $personCtrl->openDeleteActorsForm(); break;
@@ -77,6 +78,7 @@ if(isset($_GET['action'])) {
         case "deleteFilms": $filmCtrl->deleteFilms(); break;
         case "deleteCastings": $filmCtrl->deleteCastings($id); break;
         case "deleteGenres": $genreCtrl->deleteGenres(); break;
+        case "deletePersons": $personCtrl->deletePersons(); break;
         case "deleteActors": $personCtrl->deleteActors(); break;
         case "deleteDirectors": $personCtrl->deleteDirectors(); break;
         case "deleteRoles": $roleCtrl->deleteRoles(); break;
