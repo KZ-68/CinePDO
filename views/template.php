@@ -13,20 +13,42 @@
         <h1 id="kzcine">KZCine</h1>
         <nav class="nav_top">
             <ul>
-                <li><a class="liTop" href="index.php?action=homepage">Home</a></li>
-                <li><a class="liTop" href="index.php?action=listFilms">Movies List</a></li>
-                <li><a class="liTop" href="index.php?action=listActors">Actors List</a></li>
-                <li><a class="liTop" href="index.php?action=listDirectors">Directors List</a></li>
-                <li><a class="liTop" href="index.php?action=listGenres">Genres List</a></li>
-                <li><a class="liTop" href="index.php?action=listRoles">Roles List</a></li>
-                <li><a class="liTop" href="index.php?action=listPersons">Persons List</a></li>
+                <li><a class="linkTop" href="index.php?action=homepage">Home</a></li>
+                <li><a class="linkTop" href="index.php?action=listFilms">Movies List</a></li>
+                <li><a class="linkTop" href="index.php?action=listActors">Actors List</a></li>
+                <li><a class="linkTop" href="index.php?action=listDirectors">Directors List</a></li>
+                <li><a class="linkTop" href="index.php?action=listGenres">Genres List</a></li>
+                <li><a class="linkTop" href="index.php?action=listRoles">Roles List</a></li>
+                <li><a class="linkTop" href="index.php?action=listPersons">Persons List</a></li>
             </ul>
         </nav>
+
+        <div id="mySidenav" class="sidenav">
+                <a id="closeBtn" href="#" class="close">×</a>
+                <ul>
+                    <li><a class="linkTop" href="index.php?action=homepage">Home</a></li>
+                    <li><a class="linkTop" href="index.php?action=listFilms">Movies List</a></li>
+                    <li><a class="linkTop" href="index.php?action=listActors">Actors List</a></li>
+                    <li><a class="linkTop" href="index.php?action=listDirectors">Directors List</a></li>
+                    <li><a class="linkTop" href="index.php?action=listGenres">Genres List</a></li>
+                    <li><a class="linkTop" href="index.php?action=listRoles">Roles List</a></li>
+                    <li><a class="linkTop" href="index.php?action=listPersons">Persons List</a></li>
+                </ul>
+            </div>
+
+            <a href="#" id="openBtn">
+                <span class="burger-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </span>
+            </a>
+        </div>
     </header>
 
     <main>
         <div class="content_wrapper">
-            <div class="flash">
+            <div id="flash">
             <?php
                 if(isset($_SESSION['flash_message'])) {
                     $message = $_SESSION['flash_message'];
@@ -53,5 +75,6 @@
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script src="public/js/burger_menu.js"></script>
 </body>
 </html>
