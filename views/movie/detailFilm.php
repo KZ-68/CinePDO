@@ -32,14 +32,14 @@ if ($film = $film->fetch()) {
     
     /* Pour ne pas tomber sur l'erreur "Call to a member function fetch() on array", 
     la variable qui vas être associée a un array où l'on cherche -> à récupérer les colonnes par la fonction fetch(), 
-    doit impérativement être différent */
+    doit impérativement être différente */
     while ($actor = $actorsFilm->fetch()) {
         ?>
         <figure class='figure_actor'>
             <img class='photoPerson' src='public/image/<?=$actor["photo"]?>'><br/>
-            <a href='index.php?action=detailActor&id=<?=$actor['id_personne']?>'>
+            <a class="figure_anchors" href='index.php?action=detailActor&id=<?=$actor['id_personne']?>'>
             <h5><?=$actor["prenom"]?> <?=$actor["nom"]?></h5></a>
-        </figcaption>
+            <h6 class="movie_h6">Rôle : <?=$actor['nom_role']?></h6>
         </figure>
         <?php
     }
@@ -49,9 +49,8 @@ if ($film = $film->fetch()) {
         <h4>Réalisateur de ce film</h4>
         <figure class='figure_director'>
             <img class='photoPerson' src='public/image/<?=$director["photo"]?>'><br/>
-            <a href='index.php?action=detailDirector&id=<?=$director['id_film']?>'>
+            <a class="figure_anchors" href='index.php?action=detailDirector&id=<?=$director['id_film']?>'>
             <h5><?=$director["affichageRea"]?></h5></a>
-        </figcaption>
         </figure>
         <?php
     }
