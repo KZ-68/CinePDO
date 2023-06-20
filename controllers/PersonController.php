@@ -46,7 +46,7 @@ class PersonController {
                 ":id_acteur" => $id
             ];
 
-        $actor = $dao->executerRequete($sql, $params);
+        $actorProfile = $dao->executerRequete($sql, $params);
 
         $sql2 = "SELECT
                     f.id_film,
@@ -63,6 +63,21 @@ class PersonController {
             ];
 
         $filmsActor = $dao->executerRequete($sql2, $params2);
+
+        $sql3 = "SELECT DISTINCT
+                    ro.id_role,
+                    ro.nom_role
+                FROM
+                    casting c
+                INNER JOIN role ro ON ro.id_role = c.id_role
+                INNER JOIN acteur ac ON ac.id_acteur = c.id_acteur
+                WHERE c.id_acteur = :id_acteur";
+        
+            $params3 = [
+                ":id_acteur" => $id
+            ];
+
+        $rolesActor = $dao->executerRequete($sql3, $params3);
 
         require "views/actor/detailActor.php";
     }
@@ -201,6 +216,52 @@ class PersonController {
         // Retourne l'objet en cours et réaffiche la liste des films 
         $this->findAllPersons();
 
+    }
+
+    public function openDeletePersonsForm() {
+        
+        $dao = new DAO();
+
+        $sql = "SELECT
+                    id_personne, 
+                    p.photo, 
+                    p.nom, 
+                    p.prenom, 
+                    p.sexe, 
+                    p.date_naissance 
+                FROM personne p";
+
+        $person = $dao->executerRequete($sql);
+
+        require "views/person/deletePersonsForm.php";
+    }
+
+    public function deletePersons(){
+        
+        $dao = new DAO();
+
+        if (isset($_POST['deletePerson'])) {
+            $idPerson = $_POST['id_personne'];
+
+        $sql = "DELETE FROM acteur a
+                WHERE id_personne = :id_personne;
+
+                DELETE FROM realisateur re
+                WHERE id_personne = :id_personne;
+                
+                DELETE FROM personne p
+                WHERE id_personne = :id_personne";
+
+        $params = [
+            ":id_personne" => $idPerson
+        ];
+
+        $dao->executerRequete($sql, $params);
+
+        }
+
+        $_SESSION['flash_message'] = "La personne à été supprimé avec succès !";
+        $this->findAllPersons();
     }
 
     public function openAddDirectorsForm() {
